@@ -1,0 +1,12 @@
+[data-theme=dark],[data-theme=light] {
+    --_0-rTdc: var(--color-minty-green-400);
+    --_1-rTdc: var(--color-ripe-red-500)
+}
+
+.highlight-maJ2WnzA.growing-maJ2WnzA {
+    color: var(--_0-rTdc)
+}
+
+.highlight-maJ2WnzA.falling-maJ2WnzA {
+    color: var(--_1-rTdc)
+}

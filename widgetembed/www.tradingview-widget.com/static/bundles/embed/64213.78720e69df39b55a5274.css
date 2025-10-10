@@ -1,0 +1,42 @@
+.xxxsmall-wEKpoTQG {
+    --ui-lib-size: 0
+}
+
+.xxsmall-wEKpoTQG {
+    --ui-lib-size: 1
+}
+
+.xsmall-wEKpoTQG {
+    --ui-lib-size: 2
+}
+
+.small-wEKpoTQG {
+    --ui-lib-size: 3
+}
+
+.medium-wEKpoTQG {
+    --ui-lib-size: 4
+}
+
+.large-wEKpoTQG {
+    --ui-lib-size: 5
+}
+
+.xlarge-wEKpoTQG {
+    --ui-lib-size: 6
+}
+
+.dot-wEKpoTQG {
+    background-color: currentColor;
+    border-radius: 50%;
+    --ui-lib-size-defaulted: var(--ui-lib-size,0);
+    --ui-lib-size-defaulted-xxxsmall: calc(max(0, 1 - (var(--ui-lib-size-defaulted) - 0) * (var(--ui-lib-size-defaulted) - 0)));
+    --ui-lib-size-defaulted-xxsmall: calc(max(0, 1 - (var(--ui-lib-size-defaulted) - 1) * (var(--ui-lib-size-defaulted) - 1)));
+    --ui-lib-size-defaulted-xsmall: calc(max(0, 1 - (var(--ui-lib-size-defaulted) - 2) * (var(--ui-lib-size-defaulted) - 2)));
+    --ui-lib-size-defaulted-small: calc(max(0, 1 - (var(--ui-lib-size-defaulted) - 3) * (var(--ui-lib-size-defaulted) - 3)));
+    --ui-lib-size-defaulted-medium: calc(max(0, 1 - (var(--ui-lib-size-defaulted) - 4) * (var(--ui-lib-size-defaulted) - 4)));
+    --ui-lib-size-defaulted-large: calc(max(0, 1 - (var(--ui-lib-size-defaulted) - 5) * (var(--ui-lib-size-defaulted) - 5)));
+    --ui-lib-size-defaulted-xlarge: calc(max(0, 1 - (var(--ui-lib-size-defaulted) - 6) * (var(--ui-lib-size-defaulted) - 6)));
+    height: calc(var(--ui-lib-size-defaulted-xxxsmall)*6px + var(--ui-lib-size-defaulted-xxsmall)*10px + var(--ui-lib-size-defaulted-xsmall)*14px + var(--ui-lib-size-defaulted-small)*16px + var(--ui-lib-size-defaulted-medium)*18px + var(--ui-lib-size-defaulted-large)*20px + var(--ui-lib-size-defaulted-xlarge)*24px);
+    width: calc(var(--ui-lib-size-defaulted-xxxsmall)*6px + var(--ui-lib-size-defaulted-xxsmall)*10px + var(--ui-lib-size-defaulted-xsmall)*14px + var(--ui-lib-size-defaulted-small)*16px + var(--ui-lib-size-defaulted-medium)*18px + var(--ui-lib-size-defaulted-large)*20px + var(--ui-lib-size-defaulted-xlarge)*24px)
+}
