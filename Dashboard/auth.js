@@ -13,7 +13,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDAbsVFPc7E7utmykvwrYq1HKhxlVvweLA",
   authDomain: "paybit-binaryxchange.firebaseapp.com",
   projectId: "paybit-binaryxchange",
-  storageBucket: "paybit-binaryxchange.firebasestorage.app",
+  storageBucket: "paybit-binaryxchange.appspot.com",
   messagingSenderId: "531832844383",
   appId: "1:531832844383:web:f48d52644a3ee49ef16bea",
   measurementId: "G-TMJYTEY5GL"
@@ -58,14 +58,14 @@ export async function registerUser(form) {
       createdAt: new Date()
     });
 
-       Swal.fire({
-        icon: 'success',
-        title: 'Login Successful!',
-        text: 'Redirecting to Dashboard...',
-        showConfirmButton: false,
-        timer: 900,
-        timerProgressBar: true
-      });
+    Swal.fire({
+      icon: 'success',
+      title: 'Registration Successful!',
+      text: 'Redirecting to Login...',
+      showConfirmButton: false,
+      timer: 900,
+      timerProgressBar: true
+    });
     window.location.href = "login.html";
   } catch (error) {
     alert(error.message);
@@ -79,14 +79,14 @@ export async function loginUser(form) {
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, emailOrUsername, password);
-       Swal.fire({
-        icon: 'success',
-        title: 'Login Successful!',
-        text: 'Redirecting to Dashboard...',
-        showConfirmButton: false,
-        timer: 900,
-        timerProgressBar: true
-      });
+    Swal.fire({
+      icon: 'success',
+      title: 'Login Successful!',
+      text: 'Redirecting to Dashboard...',
+      showConfirmButton: false,
+      timer: 900,
+      timerProgressBar: true
+    });
     window.location.href = "account.html";
   } catch (error) {
     alert(error.message);
@@ -119,5 +119,3 @@ export async function logoutUser() {
   await signOut(auth);
   window.location.href = "login.html";
 }
-
-
