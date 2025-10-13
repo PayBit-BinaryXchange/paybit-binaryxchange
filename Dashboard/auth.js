@@ -95,31 +95,34 @@ export async function loginUser(form) {
 
 //🔹 Show user info on dashboard/settings
 export function loadUserData() {
-  onAuthStateChanged(auth, async (user) => {
-    const loading = document.getElementById("loading-screen");
-    const content = document.getElementById("account-content");
+  const loading = document.getElementById("loading-screen");
+  const content = document.getElementById("account-content");
 
-    if (user) {
-      try {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          document.querySelector('input[name="first"]').value = data.firstName || "";
-          document.querySelector('input[name="last"]').value = data.lastName || "";
-          document.querySelector('input[name="email"]').value = data.email || "";
-          document.querySelector('input[id="example-number-input"]').value = data.username || "";
-          document.querySelector('input[type="country"]').value = data.country || "";
+  // Wait 1 second before checking
+  setTimeout(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            document.querySelector('input[name="first"]').value = data.firstName || "";
+            document.querySelector('input[name="last"]').value = data.lastName || "";
+            document.querySelector('input[name="email"]').value = data.email || "";
+            document.querySelector('input[id="example-number-input"]').value = data.username || "";
+            document.querySelector('input[type="country"]').value = data.country || "";
+          }
+          loading.style.display = "none";
+          content.style.display = "block";
+        } catch (err) {
+          console.error(err);
         }
-        // hide loading, show content
-        loading.style.display = "none";
-        content.style.display = "block";
-      } catch (err) {
-        console.error(err);
+      } else {
+        window.location.href = "login.html";
       }
-    } else {
-      window.location.href = "login.html";
-    }
-  });
+    });
+  }, 3000);
 }
+
 
