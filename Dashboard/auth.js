@@ -66,7 +66,7 @@ export async function registerUser(form) {
       timer: 2000,
       timerProgressBar: true
     });
-    window.location.href = "login.html";
+    window.location.href = "Dashboard/login.html";
   } catch (error) {
     alert(error.message);
   }
@@ -87,7 +87,7 @@ export async function loginUser(form) {
       timer: 2000,
       timerProgressBar: true
     });
-    window.location.href = "account.html";
+    window.location.href = "Dashboard/account.html";
   } catch (error) {
     alert(error.message);
   }
