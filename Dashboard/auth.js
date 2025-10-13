@@ -58,7 +58,14 @@ export async function registerUser(form) {
       createdAt: new Date()
     });
 
-    alert("Registration successful!");
+       Swal.fire({
+        icon: 'success',
+        title: 'Login Successful!',
+        text: 'Redirecting to Dashboard...',
+        showConfirmButton: false,
+        timer: 900,
+        timerProgressBar: true
+      });
     window.location.href = "login.html";
   } catch (error) {
     alert(error.message);
@@ -72,8 +79,15 @@ export async function loginUser(form) {
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, emailOrUsername, password);
-    alert("Login successful!");
-    window.location.href = "dashboard.html";
+       Swal.fire({
+        icon: 'success',
+        title: 'Login Successful!',
+        text: 'Redirecting to Dashboard...',
+        showConfirmButton: false,
+        timer: 900,
+        timerProgressBar: true
+      });
+    window.location.href = "account.html";
   } catch (error) {
     alert(error.message);
   }

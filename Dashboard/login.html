@@ -220,7 +220,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <script type="module" src="auth.js"></script>
-
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <script src="js/ie10-viewport-bug-workaround.js"></script>
   <script>
@@ -248,15 +247,76 @@
   </script>
 
 
-<script type="module">
-  import { loginUser } from './auth.js';
-  const form = document.querySelector('form');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    loginUser(form);
-  });
-</script>
+<!--<script>
+document.querySelector(".form-signin1").addEventListener("submit", async function(e) {
+  e.preventDefault();
 
+  const usernameOrEmail = document.querySelector("input[name='username']").value.trim();
+  const password = document.querySelector("input[name='password']").value;
+
+  try {
+    const res = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: usernameOrEmail, username: usernameOrEmail, password })
+    });
+    const data = await res.json();
+    console.log("LOGIN response:", data);
+
+    if (res.ok) {
+      // store token
+      const token = data.token || data.accessToken || data.authToken;
+      if (token) localStorage.setItem("token", token);
+
+      // store returned user object if available
+      const user = data.user || data.userData || data.profile;
+      if (user) localStorage.setItem("user", JSON.stringify(user));
+
+      // create a safe username for the path
+      const fallbackName = usernameOrEmail.split('@')[0].replace(/[^a-z0-9_\-\.]/ig, '');
+      const usernameForPath = encodeURIComponent(
+         (user && (user.username || user.name || user.userName)) || fallbackName || "user"
+      );
+
+      const dest = `/Dashboard/home.html?user=${usernameForPath}`;
+
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful!',
+        text: 'Redirecting to Dashboard...',
+        showConfirmButton: false,
+        timer: 900,
+        timerProgressBar: true
+      });
+
+      setTimeout(() => window.location.href = dest, 900);
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: data.error || data.message || 'Something went wrong!'
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Server Error',
+      text: err.message || 'Network or server error'
+    });
+  }
+});
+</script>-->
+
+  <script type="module">
+    import { loginUser } from './auth.js';
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      loginUser(form);
+    });
+  </script>
 
 
 </body>
