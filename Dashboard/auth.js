@@ -38,7 +38,14 @@ export async function registerUser(form) {
   const account = Array.from(form.querySelector('[name="account[]"]').selectedOptions).map(opt => opt.value);
 
   if (password !== password2) {
-    alert("Passwords do not match!");
+      Swal.fire({
+      icon: 'Error!',
+      title: 'Passwords do not match!',
+      text: 'Try Again...',
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true
+    });
     return;
   }
 
@@ -66,7 +73,7 @@ export async function registerUser(form) {
       timer: 2000,
       timerProgressBar: true
     });
-    window.location.href = "Dashboard/login.html";
+    window.location.href = "login.html";
   } catch (error) {
     alert(error.message);
   }
