@@ -119,7 +119,7 @@ export function loadUserData() {
           console.error(err);
         }
       } else {
-        window.location.href = "login.html";
+        window.location.href = "account.html";
       }
     });
   }, 3000);
