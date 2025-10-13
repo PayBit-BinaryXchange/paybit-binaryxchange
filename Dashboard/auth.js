@@ -63,7 +63,7 @@ export async function registerUser(form) {
       title: 'Registration Successful!',
       text: 'Redirecting to Login...',
       showConfirmButton: false,
-      timer: 900,
+      timer: 2000,
       timerProgressBar: true
     });
     window.location.href = "login.html";
@@ -84,7 +84,7 @@ export async function loginUser(form) {
       title: 'Login Successful!',
       text: 'Redirecting to Dashboard...',
       showConfirmButton: false,
-      timer: 900,
+      timer: 2000,
       timerProgressBar: true
     });
     window.location.href = "account.html";
