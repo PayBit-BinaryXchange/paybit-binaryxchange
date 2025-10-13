@@ -87,7 +87,7 @@ export async function loginUser(form) {
       timer: 900,
       timerProgressBar: true
     });
-    window.location.href = "account.html";
+    window.location.href = "home.html";
   } catch (error) {
     alert(error.message);
   }
