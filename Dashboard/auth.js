@@ -93,30 +93,33 @@ export async function loginUser(form) {
   }
 }
 
-/*🔹 Show user info on dashboard/settings
+//🔹 Show user info on dashboard/settings
 export function loadUserData() {
-  setTimeout(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
+  onAuthStateChanged(auth, async (user) => {
+    const loading = document.getElementById("loading-screen");
+    const content = document.getElementById("account-content");
+
+    if (user) {
+      try {
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-        document.querySelector('input[name="first"]').value = data.firstName || "";
-        document.querySelector('input[name="last"]').value = data.lastName || "";
-        document.querySelector('input[name="email"]').value = data.email || "";
-        document.querySelector('input[id="example-number-input"]').value = data.username || "";
-        document.querySelector('input[type="country"]').value = data.country || "";
+          document.querySelector('input[name="first"]').value = data.firstName || "";
+          document.querySelector('input[name="last"]').value = data.lastName || "";
+          document.querySelector('input[name="email"]').value = data.email || "";
+          document.querySelector('input[id="example-number-input"]').value = data.username || "";
+          document.querySelector('input[type="country"]').value = data.country || "";
         }
-      } else {
-        window.location.href = "login.html";
+        // hide loading, show content
+        loading.style.display = "none";
+        content.style.display = "block";
+      } catch (err) {
+        console.error(err);
       }
-    });
-  }, 800); // wait 0.8 seconds before checking auth
+    } else {
+      window.location.href = "login.html";
+    }
+  });
 }
 
-// 🔹 Logout user
-export async function logoutUser() {
-  await signOut(auth);
-  window.location.href = "login.html";
-}*/
