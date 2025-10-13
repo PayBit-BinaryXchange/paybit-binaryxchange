@@ -93,7 +93,7 @@ export async function loginUser(form) {
   }
 }
 
-// 🔹 Show user info on dashboard/settings
+/*🔹 Show user info on dashboard/settings
 export function loadUserData() {
   setTimeout(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -119,4 +119,4 @@ export function loadUserData() {
 export async function logoutUser() {
   await signOut(auth);
   window.location.href = "login.html";
-}
+}*/
