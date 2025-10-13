@@ -468,6 +468,13 @@
     }
   </script>
 
+  <script type="module">
+    import { loadUserData, logoutUser } from './auth.js';
+    loadUserData();
+    document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+  </script>
+
+
 
 
 
@@ -604,7 +611,8 @@
 <script src="vendor/datatables/js/dataTables.bootstrap4.js"></script>
 <script src="vendor/datatables/js/dataTables.responsive.min.js"></script>
 <script src="js/adminux.js" type="text/javascript"></script>
-<script src="js/dashboard1.js"></script>
+<script type="module" src="auth.js"></script>
+
 
 
 
