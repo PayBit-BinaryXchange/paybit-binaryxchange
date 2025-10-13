@@ -38,14 +38,7 @@ export async function registerUser(form) {
   const account = Array.from(form.querySelector('[name="account[]"]').selectedOptions).map(opt => opt.value);
 
   if (password !== password2) {
-      Swal.fire({
-      icon: 'Error!',
-      title: 'Passwords do not match!',
-      text: 'Try Again...',
-      showConfirmButton: false,
-      timer: 2000,
-      timerProgressBar: true
-    });
+    alert("Passwords do not match!");
     return;
   }
 
@@ -70,7 +63,7 @@ export async function registerUser(form) {
       title: 'Registration Successful!',
       text: 'Redirecting to Login...',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 900,
       timerProgressBar: true
     });
     window.location.href = "login.html";
@@ -91,10 +84,10 @@ export async function loginUser(form) {
       title: 'Login Successful!',
       text: 'Redirecting to Dashboard...',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 900,
       timerProgressBar: true
     });
-    window.location.href = "Dashboard/account.html";
+    window.location.href = "account.html";
   } catch (error) {
     alert(error.message);
   }
@@ -102,23 +95,24 @@ export async function loginUser(form) {
 
 // 🔹 Show user info on dashboard/settings
 export function loadUserData() {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const data = docSnap.data();
+  setTimeout(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
         document.querySelector('input[name="first"]').value = data.firstName || "";
         document.querySelector('input[name="last"]').value = data.lastName || "";
         document.querySelector('input[name="email"]').value = data.email || "";
         document.querySelector('input[id="example-number-input"]').value = data.username || "";
         document.querySelector('input[type="country"]').value = data.country || "";
+        }
+      } else {
+        window.location.href = "login.html";
       }
-    } else {
-      window.location.href = "login.html";
-    }
-  });
+    });
+  }, 800); // wait 0.8 seconds before checking auth
 }
 
 // 🔹 Logout user
