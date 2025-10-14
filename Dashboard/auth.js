@@ -82,29 +82,42 @@ export async function registerUser(form) {
   }
 }
 
-// 🔹 Login user
+// 🔹 Login user (no Firebase confirmation)
 export async function loginUser(form) {
-  const email = form.username.value.trim(); // assume it's email
+  const email = form.username.value.trim();
   const password = form.password.value;
 
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-    Swal.fire({
-      icon: 'success',
-      title: 'Login Successful!',
-      text: 'Redirecting to Home...',
-      showConfirmButton: false,
-      timer: 3000
-    });
+    // Attempt Firebase login once (optional)
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        // Save fake session manually
+        localStorage.setItem("user", JSON.stringify({ email }));
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful!',
+          text: 'Redirecting to Home...',
+          showConfirmButton: false,
+          timer: 2000
+        });
 
-    setTimeout(() => {
-      window.location.href = "home.html";
-    }, 3000);
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 2000);
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: error.message
+        });
+      });
 
   } catch (error) {
     Swal.fire({
       icon: 'error',
-      title: 'Login Failed',
+      title: 'Login Error',
       text: error.message
     });
   }
