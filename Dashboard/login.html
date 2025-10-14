@@ -244,11 +244,16 @@
 
 
   <script type="module">
-    import { loginUser } from './auth.js';
-    const form = document.querySelector('form');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      loginUser(form);
+    import { auth } from "./auth.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // Not logged in, redirect to login page
+        window.location.href = "login.html";
+      } else {
+        console.log("User logged in:", user.email);
+      }
     });
   </script>
  <script type="module" src="auth.js"></script>
