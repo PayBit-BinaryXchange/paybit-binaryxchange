@@ -1,4 +1,4 @@
-// auth.js
+/*/ auth.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { 
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword 
@@ -108,7 +108,7 @@ export async function loginUser(form) {
       text: error.message
     });
   }
-}
+}*/
 
 
 
@@ -153,7 +153,7 @@ export async function loginUser(form) {
 
 
 
-/* auth.js
+//auth.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import { 
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
@@ -277,7 +277,7 @@ export function loadUserData() {
         window.location.href = "account";
       }
     });
-  }, 10000);
-}*/
+  }, 1000);
+}
 
 
