@@ -243,19 +243,26 @@
   </script>
 
 
-  <script type="module">
-    import { auth } from "./auth.js";
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+<script type="module">
+  import { auth, loginUser } from "./auth.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        // Not logged in, redirect to login page
-        window.location.href = "login.html";
-      } else {
-        console.log("User logged in:", user.email);
-      }
-    });
-  </script>
+  // 🔹 Redirect if user is already logged in
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User already logged in:", user.email);
+      window.location.href = "home.html";
+    }
+  });
+
+  // 🔹 Handle login form submit
+  const form = document.querySelector("#loginForm");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await loginUser(form);
+  });
+</script>
+
  <script type="module" src="auth.js"></script>
 
 
