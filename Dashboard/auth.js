@@ -99,7 +99,7 @@ export function loadUserData() {
   const content = document.getElementById("account-content");
 
   // Wait 1 second before checking
-  setTimeout(() => {
+  /*setTimeout(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
@@ -123,6 +123,6 @@ export function loadUserData() {
       }
     });
   }, 3000);
-}
+}*/
 
 
