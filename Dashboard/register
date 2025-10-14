@@ -101,9 +101,9 @@
       <div class="sidebar-right pull-right">
         <ul class="navbar-nav  justify-content-end">
           <li style="margin:4px"><a href="#" class="btn btn-link text-white"></a></li>
-          <li style="margin:4px"><a href="../home.html" style="background:#3f48cc;color:white" class="btn btn-primary">Home</a></li>
-          <li style="margin:4px"><a href="login.html" style="background:#3f48cc;color:white" class="btn btn-primary">Login</a></li>
-          <li style="margin:4px"><a href="register.html" style="background:#3f48cc;color:white" class="btn btn-primary">Register</a></li>
+          <li style="margin:4px"><a href="../home" style="background:#3f48cc;color:white" class="btn btn-primary">Home</a></li>
+          <li style="margin:4px"><a href="login" style="background:#3f48cc;color:white" class="btn btn-primary">Login</a></li>
+          <li style="margin:4px"><a href="register" style="background:#3f48cc;color:white" class="btn btn-primary">Register</a></li>
         </ul>
       </div>
     </nav>
@@ -494,7 +494,7 @@
         var transtype = transarray[Math.floor(Math.random() * transarray.length)];
         var plan = listPlans[Math.floor(Math.random() * listPlans.length)];
         var msg = 'Someone from <b>' + country + '</b> ' + transtype + ' <a href="javascript:void(0);" onclick="javascript:void(0);">' + plan + '</a>';
-        $(".mgm .txt").html(msg);
+        $(".mgm .txt")(msg);
         $(".mgm").stop(true).fadeIn(300);
         window.setTimeout(function() {
             $(".mgm").stop(true).fadeOut(300);

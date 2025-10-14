@@ -125,22 +125,22 @@ function googleTranslateElementInit() {
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a data-scroll href="home.html">Home</a>
+                    <a data-scroll href="home">Home</a>
                 </li>
                 <li>
-                    <a data-scroll href="about.html">About</a>
+                    <a data-scroll href="about">About</a>
                 </li>
                 <li>
-                    <a data-scroll href="terms.html">Terms & Conditions</a>
+                    <a data-scroll href="terms">Terms & Conditions</a>
                 </li>
                 <li>
-                    <a data-scroll href="contact.html">Contact</a>
+                    <a data-scroll href="contact">Contact</a>
                 </li>
                                     <li>
-                        <a data-scroll href="Dashboard/login.html">login</a>
+                        <a data-scroll href="Dashboard/login">login</a>
                     </li>
                     <li class="quote" style="color:white;border-radius:5px">
-                        <a href="Dashboard/register.html" style="color:white">Get Started</a>
+                        <a href="Dashboard/register" style="color:white">Get Started</a>
                     </li>
                             </ul>
         </div>
@@ -328,13 +328,13 @@ function googleTranslateElementInit() {
                     <h4>Our Services</h4>
 
                     <ul>
-                        <li><a href="home.html">Home</a></li>
-                        <li><a href="faq.html">Faqs</a></li>
-                        <li><a href="About.html">About Us</a></li>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="home">Home</a></li>
+                        <li><a href="faq">Faqs</a></li>
+                        <li><a href="About">About Us</a></li>
+                        <li><a href="terms">Terms & Conditions</a></li>
+                        <li><a href="privacy">Privacy Policy</a></li>
 
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="contact">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -373,7 +373,7 @@ function googleTranslateElementInit() {
 
         <div class="row">
             <div class="col-md-12 text-center">
-                <p class="copy "> Copyright © 2018-2023. All Rights Reserved <a href="home.html">PayBit-BinaryXchange.</a></p>
+                <p class="copy "> Copyright © 2018-2023. All Rights Reserved <a href="home">PayBit-BinaryXchange.</a></p>
             </div>
         </div>
     </div>
@@ -425,7 +425,7 @@ function googleTranslateElementInit() {
         var transtype = transarray[Math.floor(Math.random() * transarray.length)];
         var plan = listPlans[Math.floor(Math.random() * listPlans.length)];
         var msg = 'Someone from <b>' + country + '</b> ' + transtype + ' <a href="javascript:void(0);" onclick="javascript:void(0);">' + plan + '</a>';
-        $(".mgm .txt").html(msg);
+        $(".mgm .txt")(msg);
         $(".mgm").stop(true).fadeIn(300);
         window.setTimeout(function() {
             $(".mgm").stop(true).fadeOut(300);

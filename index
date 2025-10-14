@@ -128,22 +128,22 @@ function googleTranslateElementInit() {
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a data-scroll href="home.html">Home</a>
+                    <a data-scroll href="home">Home</a>
                 </li>
                 <li>
-                    <a data-scroll href="about.html">About</a>
+                    <a data-scroll href="about">About</a>
                 </li>
                 <li>
-                    <a data-scroll href="terms.html">Terms & Conditions</a>
+                    <a data-scroll href="terms">Terms & Conditions</a>
                 </li>
                 <li>
-                    <a data-scroll href="contact.html">Contact</a>
+                    <a data-scroll href="contact">Contact</a>
                 </li>
                                     <li>
-                        <a data-scroll href="Dashboard/login.html">login</a>
+                        <a data-scroll href="Dashboard/login">login</a>
                     </li>
                     <li class="quote" style="color:white;border-radius:5px">
-                        <a href="Dashboard/register.html" style="color:white">Get Started</a>
+                        <a href="Dashboard/register" style="color:white">Get Started</a>
                     </li>
                             </ul>
         </div>
@@ -181,8 +181,8 @@ function googleTranslateElementInit() {
                                         <h5 style="color:white" class="lead h5-md mt30 mb20">Trade in the world’s Top
                                             Financial Markets, with a simple and user friendly online platform<br>A Firm
                                             for Trading Stock, Forex, Bitcoin mining, Binary and CryptoCurrency trading.</h5>
-                                        <a href="Dashboard/login.html" style="border: 1px solid white" class="btn btn-hero btn-circle">Login Account</a>
-                                        <a href="Dashboard/register.html" style="border: 1px solid black" class="btn btn-white btn-circle">Create An Account</a>
+                                        <a href="Dashboard/login" style="border: 1px solid white" class="btn btn-hero btn-circle">Login Account</a>
+                                        <a href="Dashboard/register" style="border: 1px solid black" class="btn btn-white btn-circle">Create An Account</a>
                                     </div>
                                 </div>
                             </div>
@@ -207,8 +207,8 @@ function googleTranslateElementInit() {
                                             You predict currency or stock rates and earn up to 90% from deal's
                                             amount.<br>
                                             Guaranteed Withdrawals within 1 hour</h5>
-                                        <a href="about.html" style="border: 1px solid white" class="btn btn-hero btn-circle">About Us</a>
-                                        <a href="contact.html" style="border: 1px solid black" class="btn btn-white btn-circle">Contact Us</a>
+                                        <a href="about" style="border: 1px solid white" class="btn btn-hero btn-circle">About Us</a>
+                                        <a href="contact" style="border: 1px solid black" class="btn btn-white btn-circle">Contact Us</a>
                                     </div>
                                 </div>
                             </div>
@@ -231,8 +231,8 @@ function googleTranslateElementInit() {
                                         <h5 style="color:white" class="lead h5-md mt30 mb20">
                                             Make more trades and win, regardless of your trading results.<br>
                                             20 winners every week. Prize fund - $10,000</h5>
-                                        <a href="faq.html" style="border: 1px solid white" class="btn btn-hero btn-circle">Faqs</a>
-                                        <a href="privacy.html" style="border: 1px solid black" class="btn btn-white btn-circle">Policy</a>
+                                        <a href="faq" style="border: 1px solid white" class="btn btn-hero btn-circle">Faqs</a>
+                                        <a href="privacy" style="border: 1px solid black" class="btn btn-white btn-circle">Policy</a>
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +299,7 @@ function googleTranslateElementInit() {
 
                         <div class="col-md-4 col-sm-4">
                             <div class="work-inner-box">
-                                <a href="Dashboard/login.html">
+                                <a href="Dashboard/login">
                                     <div class="icon-box work-icon icon-lg">
                                         <img src="img/icon/icon2.png" alt="" class="img-responsive">
                                     </div>
@@ -311,7 +311,7 @@ function googleTranslateElementInit() {
                         </div>
                         <div class="col-md-4 col-sm-4">
                             <div class="work-inner-box">
-                                <a href="Dashboard/login.html">
+                                <a href="Dashboard/login">
                                     <div class="icon-box work-icon icon-lg">
                                         <img src="img/icon/icon3.png" alt="" class="img-responsive">
                                     </div>
@@ -458,7 +458,7 @@ function googleTranslateElementInit() {
                         <li><i class="icon ion-checkmark"></i> Fast Support Service</li>
                     </ul>
 
-                    <a href="about.html" style="border-radius:35px" class="btn btn-black ">Read More</a>
+                    <a href="about" style="border-radius:35px" class="btn btn-black ">Read More</a>
                 </div>
             </div>
         </div>
@@ -548,7 +548,7 @@ function googleTranslateElementInit() {
                 <li>Multiple Investments Allowed</li>
                 <li>3% Referral Bonus</li>
                 <li>24/7 Customer Care</li>
-                <li class="grey"><a href="Dashboard/register.html" class="button">Get Started</a></li>
+                <li class="grey"><a href="Dashboard/register" class="button">Get Started</a></li>
             </ul>
         </div>
 
@@ -560,7 +560,7 @@ function googleTranslateElementInit() {
                 <li>Multiple Investments Allowed</li>
                 <li>4% Referral Bonus</li>
                 <li>24/7 Customer Care</li>
-                <li class="grey"><a href="Dashboard/register.html" class="button">Get Started</a></li>
+                <li class="grey"><a href="Dashboard/register" class="button">Get Started</a></li>
             </ul>
         </div>
 
@@ -572,7 +572,7 @@ function googleTranslateElementInit() {
                 <li>Multiple Investments Allowed</li>
                 <li>6% Referral Bonus</li>
                 <li>24/7 Customer Care</li>
-                <li class="grey"><a href="Dashboard/register.html" class="button">Get Started</a></li>
+                <li class="grey"><a href="Dashboard/register" class="button">Get Started</a></li>
             </ul>
         </div>
 
@@ -585,7 +585,7 @@ function googleTranslateElementInit() {
                 <li>Multiple Investments Allowed</li>
                 <li>8% Referral Bonus</li>
                 <li>24/7 Customer Care</li>
-                <li class="grey"><a href="Dashboard/register.html" class="button">Get Started</a></li>
+                <li class="grey"><a href="Dashboard/register" class="button">Get Started</a></li>
             </ul>
         </div>
 
@@ -707,7 +707,7 @@ function googleTranslateElementInit() {
         <div class="row">
             <div class="col-md-8 col-sm-3">
                 <div class="price-chart">
-                    <iframe src="demo.php/paybit-binaryxchange.com/demo.php.html" class="mini-platform" width="100%" frameBorder="0" height="408px"></iframe>
+                    <iframe src="demo.php/paybit-binaryxchange.com/demo.php" class="mini-platform" width="100%" frameBorder="0" height="408px"></iframe>
                 </div>
             </div>
             <div class="col-sm-4">
@@ -1110,13 +1110,13 @@ function googleTranslateElementInit() {
                     <h4>Our Services</h4>
 
                     <ul>
-                        <li><a href="home.html">Home</a></li>
+                        <li><a href="home">Home</a></li>
                         <li><a href="faqs">Faqs</a></li>
-                        <li><a href="About.html">About Us</a></li>
-                        <li><a href="terms.html">Terms & Conditions</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="About">About Us</a></li>
+                        <li><a href="terms">Terms & Conditions</a></li>
+                        <li><a href="privacy">Privacy Policy</a></li>
 
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="contact">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -1155,7 +1155,7 @@ function googleTranslateElementInit() {
 
         <div class="row">
             <div class="col-md-12 text-center">
-                <p class="copy "> Copyright © 2018-2023. All Rights Reserved <a href="home.html">PayBit-BinaryXchange.</a></p>
+                <p class="copy "> Copyright © 2018-2023. All Rights Reserved <a href="home">PayBit-BinaryXchange.</a></p>
             </div>
         </div>
     </div>
@@ -1208,7 +1208,7 @@ function googleTranslateElementInit() {
         var transtype = transarray[Math.floor(Math.random() * transarray.length)];
         var plan = listPlans[Math.floor(Math.random() * listPlans.length)];
         var msg = 'Someone from <b>' + country + '</b> ' + transtype + ' <a href="javascript:void(0);" onclick="javascript:void(0);">' + plan + '</a>';
-        $(".mgm .txt").html(msg);
+        $(".mgm .txt")(msg);
         $(".mgm").stop(true).fadeIn(300);
         window.setTimeout(function() {
             $(".mgm").stop(true).fadeOut(300);

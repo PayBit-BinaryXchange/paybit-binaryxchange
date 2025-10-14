@@ -66,7 +66,7 @@ export async function registerUser(form) {
       timer: 900,
       timerProgressBar: true
     });
-    window.location.href = "login.html";
+    window.location.href = "login";
   } catch (error) {
     alert(error.message);
   }
@@ -87,7 +87,7 @@ export async function loginUser(form) {
       timer: 900,
       timerProgressBar: true
     });
-    window.location.href = "home.html";
+    window.location.href = "home";
   } catch (error) {
     alert(error.message);
   }
@@ -99,7 +99,7 @@ export function loadUserData() {
   const content = document.getElementById("account-content");
 
   // Wait 1 second before checking
-  /*setTimeout(() => {
+  setTimeout(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
@@ -119,10 +119,10 @@ export function loadUserData() {
           console.error(err);
         }
       } else {
-        window.location.href = "account.html";
+        window.location.href = "account";
       }
     });
-  }, 3000);
-}*/
+  }, 10000);
+}
 
 
