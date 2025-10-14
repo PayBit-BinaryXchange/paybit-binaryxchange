@@ -66,12 +66,12 @@ export async function registerUser(form) {
       title: 'Registration Successful!',
       text: 'Redirecting to Login...',
       showConfirmButton: false,
-      timer: 1000
+      timer: 3000
     });
 
     setTimeout(() => {
       window.location.href = "login.html";
-    }, 1000);
+    }, 3000);
 
   } catch (error) {
     Swal.fire({
@@ -94,12 +94,12 @@ export async function loginUser(form) {
       title: 'Login Successful!',
       text: 'Redirecting to Home...',
       showConfirmButton: false,
-      timer: 1000
+      timer: 3000
     });
 
     setTimeout(() => {
       window.location.href = "home.html";
-    }, 10000);
+    }, 3000);
 
   } catch (error) {
     Swal.fire({
