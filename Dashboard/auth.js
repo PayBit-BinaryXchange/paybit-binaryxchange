@@ -102,7 +102,7 @@ export async function loginUser(form) {
     });
 
     setTimeout(() => {
-      window.location.href = "home.html";
+      window.location.href = "account.html";
     }, 2000);
 
   } catch (error) {
