@@ -115,7 +115,7 @@
 
 
 <div class="col-md-8 offset-md-8 text-left side_signing_full">
-  <form class="form-signin1 full_side text-white " action="" method="POST">
+  <form class="form-signin1 full_side text-white " action="" method="POST" id="loginForm">
     <img style="width:100%;height:100%" src="img/logo.png">
     <span>
       <h3 style="color:crimson;text-align:center"></h3>
@@ -250,8 +250,8 @@
 
   const form = document.getElementById('loginForm');
   form.addEventListener('submit', (e) => {
-    e.preventDefault(); // ❗ stop the 405-causing POST
-    loginUser(form);    // call Firebase login from auth.js
+    e.preventDefault();
+    loginUser(form);   
   });
 </script>
 
