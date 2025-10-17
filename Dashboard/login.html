@@ -245,15 +245,15 @@
   </script>
 
 
-   <script type="module">
-    import { loginUser } from "./auth.js";
+<script type="module">
+  import { loginUser } from './auth.js';
 
-    const loginForm = document.getElementById("loginForm");
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      await loginUser(loginForm);
-    });
-  </script>
+  const form = document.getElementById('loginForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault(); // ❗ stop the 405-causing POST
+    loginUser(form);    // call Firebase login from auth.js
+  });
+</script>
 
 
 </body>
