@@ -699,5 +699,13 @@
         //document.addEventListener('contextmenu',event => event.preventDefault())
 </script>  
 
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    window.location.href = "login.html"; // redirect to login if not logged in
+  }
+</script>
+
+
 </body>
 </html>

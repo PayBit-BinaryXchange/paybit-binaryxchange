@@ -529,15 +529,24 @@
     });
   </script>
 
-  <script type="module">
-    import { registerUser } from "./auth.js";
+<script type="module">
+  import { registerUser } from './auth.js';
 
-    const registerForm = document.getElementById("registerForm");
-    registerForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      await registerUser(registerForm);
-    });
-  </script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await registerUser(form);
+  });
+</script>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    window.location.href = "account.html"; // already logged in
+  }
+</script>
+
+
 
 
 

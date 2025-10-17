@@ -115,7 +115,7 @@
 
 
 <div class="col-md-8 offset-md-8 text-left side_signing_full">
-  <form class="form-signin1 full_side text-white " action="" method="POST" id="loginForm">
+  <form class="form-signin1 full_side text-white " action="" method="POST">
     <img style="width:100%;height:100%" src="img/logo.png">
     <span>
       <h3 style="color:crimson;text-align:center"></h3>
@@ -248,12 +248,20 @@
 <script type="module">
   import { loginUser } from './auth.js';
 
-  const form = document.getElementById('loginForm');
-  form.addEventListener('submit', (e) => {
+  const form = document.querySelector('form');
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    loginUser(form);   
+    await loginUser(form);
   });
 </script>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user) {
+    window.location.href = "account.html"; // already logged in
+  }
+</script>
+
 
 
 </body>
