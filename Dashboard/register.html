@@ -530,14 +530,14 @@
   </script>
 
   <script type="module">
-    import { registerUser } from './auth.js';
-    const form = document.querySelector('form');
-    form.addEventListener('submit', (e) => {
+    import { registerUser } from "./auth.js";
+
+    const registerForm = document.getElementById("registerForm");
+    registerForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      registerUser(form);
+      await registerUser(registerForm);
     });
   </script>
-   <script type="module" src="auth.js"></script>
 
 
 

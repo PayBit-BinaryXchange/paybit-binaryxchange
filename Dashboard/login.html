@@ -154,8 +154,8 @@
 
 
 
- <!--<script src="//code.jivosite.com/widget/2xb7DNlE1r" async></script>-->
-  <script src="//code.jivosite.com/widget/2xb7DNlE1r" defer></script>
+ <script src="//code.jivosite.com/widget/2xb7DNlE1r" async></script>
+
 
 <style>
 .mgm {
@@ -244,17 +244,15 @@
   </script>
 
 
-<script>
-window.onload = function() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) {
-    window.location.href = "login.html";
-  } else {
-    console.log("User logged in:", user.email);
-  }
-};
-</script>
- <script type="module" src="auth.js"></script>
+   <script type="module">
+    import { loginUser } from "./auth.js";
+
+    const loginForm = document.getElementById("loginForm");
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await loginUser(loginForm);
+    });
+  </script>
 
 
 </body>
