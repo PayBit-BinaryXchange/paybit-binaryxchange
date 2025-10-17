@@ -4,7 +4,7 @@ import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword 
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 import { 
-  getFirestore, doc, setDoc 
+  getFirestore, doc, setDoc, getDocs, collection, query, where 
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // 🔹 Firebase configuration
@@ -23,7 +23,9 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// 🔹 Register user
+/* -------------------------------------------------------------------------- */
+/*                            🔹 REGISTER FUNCTION                            */
+/* -------------------------------------------------------------------------- */
 export async function registerUser(form) {
   const fname = form.fname.value.trim();
   const lname = form.lname.value.trim();
@@ -49,6 +51,7 @@ export async function registerUser(form) {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
+    // Save user profile to Firestore
     await setDoc(doc(db, "users", user.uid), {
       firstName: fname,
       lastName: lname,
@@ -82,27 +85,40 @@ export async function registerUser(form) {
   }
 }
 
-// 🔹 Login user (fixed)
+/* -------------------------------------------------------------------------- */
+/*                              🔹 LOGIN FUNCTION                             */
+/* -------------------------------------------------------------------------- */
 export async function loginUser(form) {
-  const email = form.username.value.trim();
+  const input = form.username.value.trim(); // can be email or username
   const password = form.password.value;
 
   try {
-    // Await Firebase login once
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    localStorage.setItem("user", JSON.stringify({ email: userCredential.user.email })); // save session manually
+    let emailToUse = input;
 
-    // ✅ Do NOT rely on onAuthStateChanged anywhere
+    // 🔹 If user typed username instead of email, find its associated email
+    if (!input.includes("@")) {
+      const q = query(collection(db, "users"), where("username", "==", input));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) throw new Error("Username not found.");
+      emailToUse = querySnapshot.docs[0].data().email;
+    }
+
+    const userCredential = await signInWithEmailAndPassword(auth, emailToUse, password);
+    const user = userCredential.user;
+
+    // 🔹 Save session manually
+    localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email }));
+
     Swal.fire({
       icon: 'success',
       title: 'Login Successful!',
-      text: 'Redirecting to Home...',
+      text: 'Redirecting to Dashboard...',
       showConfirmButton: false,
       timer: 2000
     });
 
     setTimeout(() => {
-      window.location.href = "account.html";
+      window.location.href = "account.html"; // ✅ direct to dashboard
     }, 2000);
 
   } catch (error) {
@@ -113,4 +129,3 @@ export async function loginUser(form) {
     });
   }
 }
-
