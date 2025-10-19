@@ -118,7 +118,7 @@ export async function loginUser(form) {
     });
 
     setTimeout(() => {
-      window.location.href = "account.html"; // ✅ direct to dashboard
+      window.location.href = "home.html"; // ✅ direct to dashboard
     }, 2000);
 
   } catch (error) {
