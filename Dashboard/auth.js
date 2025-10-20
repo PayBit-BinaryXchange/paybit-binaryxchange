@@ -1,10 +1,19 @@
 // auth.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { 
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword 
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-import { 
-  getFirestore, doc, setDoc, getDocs, collection, query, where 
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDocs,
+  collection,
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // 🔹 Firebase configuration
@@ -103,23 +112,17 @@ export async function loginUser(form) {
       emailToUse = querySnapshot.docs[0].data().email;
     }
 
-    const userCredential = await signInWithEmailAndPassword(auth, emailToUse, password);
-    const user = userCredential.user;
-
-    // 🔹 Save session manually
-    localStorage.setItem("user", JSON.stringify({ uid: user.uid, email: user.email }));
+    await signInWithEmailAndPassword(auth, emailToUse, password);
 
     Swal.fire({
       icon: 'success',
       title: 'Login Successful!',
-      text: 'Redirecting to Dashboard...',
+      text: 'Redirecting...',
       showConfirmButton: false,
-      timer: 2000
+      timer: 1500
     });
 
-    setTimeout(() => {
-      window.location.href = "home.html"; // ✅ direct to dashboard
-    }, 2000);
+    // 🔹 Let onAuthStateChanged handle redirect
 
   } catch (error) {
     Swal.fire({
@@ -129,3 +132,18 @@ export async function loginUser(form) {
     });
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/*                        🔹 AUTH STATE REDIRECTION                           */
+/* -------------------------------------------------------------------------- */
+onAuthStateChanged(auth, (user) => {
+  const currentPage = window.location.pathname.split("/").pop();
+
+  if (user && currentPage === "login.html") {
+    // ✅ Logged in but still on login page → redirect to dashboard
+    window.location.href = "home.html";
+  } else if (!user && currentPage === "home.html") {
+    // 🚫 Not logged in but on dashboard → redirect to login
+    window.location.href = "login.html";
+  }
+});
