@@ -213,24 +213,50 @@
       <li class="v-devider"></li>
       <li class="nav-item "> <a class="btn btn-link icon-header menu-collapse-right" href="#"><span class="fa fa-podcast"></span> </a> </li>
     </ul>
-    <div class="sidebar-right pull-right ">
-      <ul class="navbar-nav  justify-content-end">
+    <div class="sidebar-right pull-right">
+      <ul class="navbar-nav justify-content-end">
         <li class="nav-item">
-          <button class="btn-link btn userprofile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button><span class="userpic"><img src="img/profile/default.png" alt="user pic"></span> <span class="text"></span>
+          <button class="btn-link btn userprofile" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"></button>
+    
+          <span class="userpic">
+            <img src="<%= profilePic || '/img/default.png' %>" alt="user pic">
+          </span>
+    
+          <span class="text">
+            <%= user?.firstname || '' %> <%= user?.lastname || '' %>
+          </span>
         </li>
-        <li><a href="logout" class="btn btn-link icon-header"><span class="fa fa-power-off"></span></a></li>
+    
+        <li>
+          <a href="logout" class="btn btn-link icon-header">
+            <span class="fa fa-power-off"></span>
+          </a>
+        </li>
       </ul>
     </div>
-  </nav>
-</header>
-<div class="sidebar-left">
-  <div class="user-menu-items">
-    <div class="list-unstyled btn-group">
-      <button class="media btn btn-link" aria-haspopup="true" aria-expanded="false"> <span class="message_userpic">
-        <img class="d-flex" src="/img/profile/default.png" alt="Generic user image"></span> 
-        <span class="media-body"> <span class="mt-0 mb-1"></span> <small></small> </span> </button>
-    </div>
-  </div>
+    </nav>
+    </header>
+    
+    <div class="sidebar-left">
+      <div class="user-menu-items">
+        <div class="list-unstyled btn-group">
+          <button class="media btn btn-link" aria-haspopup="true" aria-expanded="false">
+    
+            <span class="message_userpic">
+              <img class="d-flex" src="<%= profilePic || '/img/default.png' %>" alt="User image">
+            </span>
+    
+            <span class="media-body">
+              <span class="mt-0 mb-1">
+                <%= user?.firstname || '' %> <%= user?.lastname || '' %>
+              </span>
+              <small><%= user?.username || '' %></small>
+            </span>
+    
+          </button>
+        </div>
+      </div>
   <br>
   <ul class="nav flex-column in" id="side-menu">
 
@@ -286,107 +312,150 @@
 
 <title>PayBit-BinaryXchange | Payment</title>
 
-
+  
 <div class="row">
-        <div class="col-sm-16 col-md-8">
-                <div class="card">
-                        <div class="card-header align-items-start justify-content-between flex">
-                                <h4 class="pull-left">Bitcoin Payment Details</h4>
-                                <ul class="nav nav-pills card-header-pills pull-right">
-                                        <li class="nav-item">
-                                                <button class="btn btn-sm btn-link btn-round" data-toggle="collapse" data-target="#bpd"><i class="fa fa-chevron-down"></i></button>
-                                        </li>
-                                </ul>
-                        </div>
-                        <div id="bpd">
-                                <div class="card-body">
-                                        <div class="form-group" align="center">
-                                                <label for="recipient-name" class="form-control-label font-weight-bold">Scan Bitcoin QR Code to copy wallet address</label>
-                                                <hr>
-                                                <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qqu70gcgd0gk7naf7y5ncauvm29arfzf50t6qp2" style="width:200px;">
-                                                <hr style="color:white">
-                                                <div class="input-group mb-3" style="width:80%">
-                                                        <input style="color:black" id="myInput" type="text" value="16SH6P6M4wVzUvhGbZBu35vH74bhYcuA4t" class="form-control" readonly>
-                                                        <div class="input-group-append">
-                                                                <button type="button" onclick="copyWallet()" class="btn btn-success" value="Copy Wallet">Copy Wallet</button>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                </div>
-                                <form action="" method="POST" enctype="multipart/form-data">
-                                        <div class="form-group" style="border: 0px solid grey;border-radius:5px;padding:15px;">
-                                                <p class="form-control-label font-weight-bold text-center" style="color:#17a2b8;font-size:12px">
-                                                        If your payment was successful, Please upload payment proof below.
-                                                </p>
-                                                <hr>
-                                                <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                                <label for="upload" class="input-group-text">
-                                                                        Upload Proof
-                                                                </label>
-                                                        </div>
-                                                        <input type="file" name="file" class="form-control" id="upload" required>
-                                                        <input type="hidden" name="amount" value="200">
-                                                        <input type="hidden" name="action" value="Deposit">
-                                                </div>
-                                                <hr>
-                                                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Clear</button>
-                                                <button type="submit" name="paid" style="float:right" class="btn btn-primary">Submit Payment Proof</button>
-                                        </div>
-                                </form>
-                        </div>
-                </div>
+  <!-- Bitcoin Card -->
+  <div class="col-sm-16 col-md-8">
+    <div class="card">
+      <div class="card-header align-items-start justify-content-between flex">
+        <h4 class="pull-left">Bitcoin Payment Details</h4>
+        <ul class="nav nav-pills card-header-pills pull-right">
+          <li class="nav-item">
+            <button class="btn btn-sm btn-link btn-round" data-toggle="collapse" data-target="#bpd"><i class="fa fa-chevron-down"></i></button>
+          </li>
+        </ul>
+      </div>
+      <div class="collapse show" id="bpd">
+        <div class="card-body">
+          <div class="form-group" align="center">
+            <% if(pendingDeposit) { %>
+              <div class="alert alert-info mb-3">
+                Deposit Amount: <b><%= pendingDeposit.currency %><%= pendingDeposit.amount %></b><br>
+                Send exact amount then upload proof below
+              </div>
+            <% } else if(pendingSignal) { %>
+              <div class="alert alert-info mb-3">
+                Signal Plan: <b><%= pendingSignal.invest %></b> - <%= pendingSignal.currency %><%= pendingSignal.amount %>
+              </div>
+            <% } else { %>
+              <div class="alert alert-danger">Session expired. <a href="/Dashboard/deposit">Start deposit again</a></div>
+            <% } %>
+
+            <label class="form-control-label font-weight-bold">Scan Bitcoin QR Code to copy wallet address</label>
+            <hr>
+            <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qqu70gcgd0gk7naf7y5ncauvm29arfzf50t6qp2" style="width:200px;">
+            <hr style="color:white">
+            <div class="input-group mb-3" style="width:80%">
+              <input style="color:black" id="myInput" type="text" value="bc1qqu70gcgd0gk7naf7y5ncauvm29arfzf50t6qp2" class="form-control" readonly>
+              <div class="input-group-append">
+                <button type="button" onclick="copyWallet()" class="btn btn-success">Copy Wallet</button>
+              </div>
+            </div>
+          </div>
         </div>
-                <div class="col-sm-16 col-md-8">
-                <div class="card">
-                        <div class="card-header align-items-start justify-content-between flex">
-                                <h4 class="pull-left">Ethereum(ERC20) Payment Details</h4>
-                                <ul class="nav nav-pills card-header-pills pull-right">
-                                        <li class="nav-item">
-                                                <button class="btn btn-sm btn-link btn-round" data-toggle="collapse" data-target="#epd"><i class="fa fa-chevron-down"></i></button>
-                                        </li>
-                                </ul>
-                        </div>
-                        <div id="epd">
-                                <div class="card-body">
-                                        <div class="form-group" align="center">
-                                                <label for="recipient-name" class="form-control-label font-weight-bold">Scan Ethereum(ERC20) QR Code to copy wallet address</label>
-                                                <hr>
-                                                <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=ethereum:0x8A301F2b0dB4C470EffdaAB4244e0cF6251b2454" style="width:200px;">
-                                                <hr style="color:white">
-                                                <div class="input-group mb-3" style="width:80%">
-                                                        <input style="color:black" id="myInputa" type="text" value="0x625ec49be4fb8056ef2e64c993a0d0b84373f17a" class="form-control" readonly>
-                                                        <div class="input-group-append">
-                                                                <button type="button" onclick="copyWalleta()" class="btn btn-success" value="Copy Wallet">Copy Wallet</button>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                </div>
-                                <form action="" method="POST" enctype="multipart/form-data">
-                                        <div class="form-group" style="border: 0px solid grey;border-radius:5px;padding:15px;">
-                                                <p class="form-control-label font-weight-bold text-center" style="color:#17a2b8;font-size:12px">
-                                                        If your payment was successful, Please upload payment proof below.
-                                                </p>
-                                                <hr>
-                                                <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                                <label for="upload" class="input-group-text">
-                                                                        Upload Proof
-                                                                </label>
-                                                        </div>
-                                                        <input type="file" name="file" class="form-control" id="upload" required>
-                                                        <input type="hidden" name="amount" value="200">
-                                                        <input type="hidden" name="action" value="Deposit">
-                                                </div>
-                                                <hr>
-                                                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Clear</button>
-                                                <button type="submit" name="paida" style="float:right" class="btn btn-primary">Submit Payment Proof</button>
-                                        </div>
-                                </form>
-                        </div>
-                </div>
+
+        <form action="/Dashboard/payment" method="POST" enctype="multipart/form-data">
+          <div class="form-group" style="border: 0px solid grey;border-radius:5px;padding:15px;">
+            <p class="form-control-label font-weight-bold text-center" style="color:#17a2b8;font-size:12px">
+              If your payment was successful, Please upload payment proof below.
+            </p>
+            <hr>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label for="upload_btc" class="input-group-text">Upload Proof</label>
+              </div>
+              <input type="file" name="file" class="form-control" id="upload_btc" required>
+              
+              <% if(pendingDeposit) { %>
+                <input type="hidden" name="amount" value="<%= pendingDeposit.amount %>">
+                <input type="hidden" name="type" value="Deposit">
+              <% } else if(pendingSignal) { %>
+                <input type="hidden" name="amount" value="<%= pendingSignal.amount %>">
+                <input type="hidden" name="type" value="Signal">
+                <input type="hidden" name="plan" value="<%= pendingSignal.invest %>">
+              <% } %>
+            </div>
+            <hr>
+            <button type="reset" class="btn btn-secondary">Clear</button>
+            <button type="submit" name="paid" style="float:right" class="btn btn-primary">Submit Payment Proof</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ethereum Card -->
+  <div class="col-sm-16 col-md-8">
+    <div class="card">
+      <div class="card-header align-items-start justify-content-between flex">
+        <h4 class="pull-left">Ethereum(ERC20) Payment Details</h4>
+        <ul class="nav nav-pills card-header-pills pull-right">
+          <li class="nav-item">
+            <button class="btn btn-sm btn-link btn-round" data-toggle="collapse" data-target="#epd"><i class="fa fa-chevron-down"></i></button>
+          </li>
+        </ul>
+      </div>
+      <div class="collapse show" id="epd">
+        <div class="card-body">
+          <div class="form-group" align="center">
+            <label class="form-control-label font-weight-bold">Scan Ethereum(ERC20) QR Code to copy wallet address</label>
+            <hr>
+            <img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=ethereum:0x8A301F2b0dB4C470EffdaAB4244e0cF6251b2454" style="width:200px;">
+            <hr style="color:white">
+            <div class="input-group mb-3" style="width:80%">
+              <input style="color:black" id="myInputa" type="text" value="0x8A301F2b0dB4C470EffdaAB4244e0cF6251b2454" class="form-control" readonly>
+              <div class="input-group-append">
+                <button type="button" onclick="copyWalleta()" class="btn btn-success">Copy Wallet</button>
+              </div>
+            </div>
+          </div>
         </div>
-                </div>
+
+        <form action="/Dashboard/payment" method="POST" enctype="multipart/form-data">
+          <div class="form-group" style="border: 0px solid grey;border-radius:5px;padding:15px;">
+            <p class="form-control-label font-weight-bold text-center" style="color:#17a2b8;font-size:12px">
+              If your payment was successful, Please upload payment proof below.
+            </p>
+            <hr>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <label for="upload_eth" class="input-group-text">Upload Proof</label>
+              </div>
+              <input type="file" name="file" class="form-control" id="upload_eth" required>
+              
+              <% if(pendingDeposit) { %>
+                <input type="hidden" name="amount" value="<%= pendingDeposit.amount %>">
+                <input type="hidden" name="type" value="Deposit">
+              <% } else if(pendingSignal) { %>
+                <input type="hidden" name="amount" value="<%= pendingSignal.amount %>">
+                <input type="hidden" name="type" value="Signal">
+                <input type="hidden" name="plan" value="<%= pendingSignal.invest %>">
+              <% } %>
+            </div>
+            <hr>
+            <button type="reset" class="btn btn-secondary">Clear</button>
+            <button type="submit" name="paida" style="float:right" class="btn btn-primary">Submit Payment Proof</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copyWallet() {
+  var copyText = document.getElementById("myInput");
+  copyText.select();
+  document.execCommand("copy");
+  Swal.fire('Copied!', 'BTC wallet copied', 'success');
+}
+function copyWalleta() {
+  var copyText = document.getElementById("myInputa");
+  copyText.select();
+  document.execCommand("copy");
+  Swal.fire('Copied!', 'ETH wallet copied', 'success');
+}
+</script>
 
 
 
@@ -668,7 +737,14 @@
         //document.addEventListener('contextmenu',event => event.preventDefault())
 </script>  
 
-
+<script>
+  <% if (success && success.length) { %>
+  Swal.fire({icon: 'success', title: 'Success', text: '<%= success %>'});
+  <% } %>
+  <% if (error && error.length) { %>
+  Swal.fire({icon: 'error', title: 'Error', text: '<%= error %>'});
+  <% } %>
+  </script>
 
 </body>
 </html>

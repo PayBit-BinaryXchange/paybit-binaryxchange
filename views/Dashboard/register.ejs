@@ -129,6 +129,12 @@
             <h3 style="color:green;text-align:center"></h3>
         </span>
         <h2 class="tex-black mb-4">Register</h2>
+        <% if (error && error.length > 0) { %>
+          <div class="alert alert-danger"><%= error[0] %></div>
+        <% } %>
+        <% if (success && success.length > 0) { %>
+          <div class="alert alert-success"><%= success[0] %></div>
+        <% } %>
         <label style="color:black">First Name</label>
         <input type="text" style="color:black;font-weight:bold" class="form-control" name="firstname" placeholder="First Name" value="" required>
         <span style="color:crimson"></span>
@@ -431,16 +437,18 @@
                     </select>
         <span style="color:crimson"></span>
         <br>
-                    <div class="input-group">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <img src="/captcha" alt="" srcset="">
+                  <img src="/captcha?t=<%= Date.now() %>" id="captchaImg" 
+                  onclick="this.src='/captcha?t='+Date.now()" 
+                  style="cursor:pointer; border:1px solid #ddd; border-radius:6px">
                 </div>
-                <input style="color:black" type="text" value="" placeholder="Enter Captcha" name="_captcha" class="form-control font-weight-bold" id="captcha" required>
+                <input style="color:black" type="text" value="" placeholder="Enter Captcha" name="captcha" class="form-control font-weight-bold" id="captcha" required>
             </div>
             <span style="color:crimson"></span>
             <br>
                 <div class="checkbox">
-            <input type="checkbox" name="agree" style="color:black;font-weight:bold" class="form-check-input" style="color:black;font-weight:bold" checked required>
+            <input type="checkbox" name="agree" style="color:black;font-weight:bold" class="form-check-input" style="color:black;font-weight:bold" checked required autocomplete="off">
             <i class="fa fa-pencil"></i>
             <b style="color:black">You agree to our terms and conditions</b>
         </div>

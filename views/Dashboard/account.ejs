@@ -118,7 +118,6 @@
       color: white;
     }
   </style>
-
   
 <header class="navbar-fixed">
   <nav class="navbar navbar-toggleable-md navbar-inverse bg-faded">
@@ -288,7 +287,7 @@
   <ul class="nav flex-column in">
     <li class="nav-item ">
       <div class="nav-link">
-        <h5><span>2025/09/19 10:01pm</span></h5>
+        <h5><span><%= now %></span></h5>
       </div>
     </li>
     <li class="nav-item ">
@@ -315,7 +314,7 @@
             <div class="activity-block success" style="border: 1px solid ">
                 <div class="media">
                     <div class="media-body">
-                        <h5 class="font-weight-bold" style="color:crimson">$<span class="">0.00</span></h5>
+                      <h5 class="font-weight-bold" style="color:crimson"><%= user.currency %><span><%= user.totalDeposit.toFixed(2) %></span></h5>
                         <p>Total Deposit</p>
                     </div>
                     <i class="fas fa-dollar-sign"></i>
@@ -332,7 +331,7 @@
             <div class="activity-block success" style="border: 1px solid ">
                 <div class="media">
                     <div class="media-body">
-                        <h5 class="font-weight-bold" style="color:#070">$<span class="">0.00</span></h5>
+                      <h5 class="font-weight-bold" style="color:#070"><%= user.currency %><span><%= user.balance.toFixed(2) %></span></h5>
                         <p>Total Balance</p>
                     </div>
                     <i class="fas fa-chart-bar"></i>
@@ -349,7 +348,7 @@
             <div class="activity-block success" style="border: 1px solid ">
                 <div class="media">
                     <div class="media-body">
-                        <h5 class="font-weight-bold"><span class="">$<span class="">0.00</span></h5>
+                      <h5 class="font-weight-bold"><%= user.currency %><span><%= user.totalBonus.toFixed(2) %></span></h5>
                         <p>Total Bonus</p>
                     </div>
                     <i class="fas fa-wallet"></i>
@@ -366,7 +365,7 @@
             <div class="activity-block success" style="border: 1px solid ">
                 <div class="media">
                     <div class="media-body">
-                        <h5 class="font-weight-bold" ><span class="">$<span class="">0.00</span></h5>
+                      <h5 class="font-weight-bold"><%= user.currency %><span><%= user.totalEarning.toFixed(2) %></span></h5>
                         <p>Total Earning</p>
                     </div>
                     <i class="fas fa-chart-bar"></i>
@@ -391,6 +390,21 @@
      <div class="col-md-16 col-lg-16 col-xl-16">
           <div class="activity-block success" id="bck">
                <div class="media">
+                <%
+                // Calculate values first
+                const lastUpgradeTx = user.transactions && user.transactions.length > 0
+                 ? user.transactions.filter(t => t.status==='Completed' && t.type==='Upgrade').slice(-1)[0]
+                  : null;
+        
+                const lastSignalTx = user.transactions && user.transactions.length > 0
+                 ? user.transactions.filter(t => t.status==='Completed' && t.type==='Signal').slice(-1)[0]
+                  : null;
+        
+                const lastPlan = lastUpgradeTx? lastUpgradeTx.plan : 'None'; // Package = last Upgrade
+                const lastSignal = lastSignalTx? lastSignalTx.plan : 'None'; // Signal = last Signal
+                const totalRefs = user.referral? 1 : 0;
+                const accType = 'Forex Trading'; // Static. Change if you add user.accountType field later
+                %>
                     <div class="media-body">
                          <a href="history"><button type="button" class="btn btn-success"><i class="fa fa-exchange"></i> Trading History</button></a>
                          <a href="settings"><button type="button" style="float:right" class="btn btn-danger"><i class="fa fa-gears"></i> Settings</button></a>
@@ -400,19 +414,19 @@
                                                   <br>
                          <hr>
                                                   <a style="float:left;font-size:20px;font-weight:bold">Package</a>
-                         <a style="float:right;font-size:18px;letter-spacing:1px">None</a>
+                         <a style="float:right;font-size:18px;letter-spacing:1px"><%= lastPlan %></a>
                          <br>
                          <hr>
                          <a style="float:left;font-size:20px;font-weight:bold"> Signal </a>
-                         <a style="float:right;font-size:18px;letter-spacing:3px">None</a>
+                         <a style="float:right;font-size:18px;letter-spacing:3px"><%= lastSignal %></a>
                          <br>
                          <hr>
                          <a style="float:left;font-size:20px;font-weight:bold">Total Referrals</a>
-                         <a style="float:right;font-size:18px;letter-spacing:1px">None</a>
+                         <a style="float:right;font-size:18px;letter-spacing:1px"><%= totalRefs %></a>
                          <br>
                          <hr>
                          <a style="float:left;font-size:20px;font-weight:bold">Account Type</a>
-                         <a style="float:right;font-size:18px;letter-spacing:1px">Forex Trading<br></a>
+                         <a style="float:right;font-size:18px;letter-spacing:1px"><%= accType %><br></a>
                          <br><br>
                          <hr>
                          <a style="float:left;font-size:20px;font-weight:bold">Account Status</a>
@@ -421,8 +435,12 @@
                          <hr>
                          <h6 style="float:left">
                               NOTIFICATION:
-                         </h6><br>
-                         <marquee></marquee>
+                         </h6>
+                         <% if(user && user.role === 'admin') { %>
+                          <li class="nav-item"><a class="nav-link" href="/Dashboard/admin/users"><i class="fa fa-users"></i>Admin Panel</a></li>
+                          <% } %>
+                         <br>
+                         <marquee>Welcome <%= user.firstname %>! Check transactions for deposit status.</marquee>
                     </div>
                     <i class="fa ffa fa-"></i>
                </div>
@@ -608,20 +626,6 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script src="/js/styleswitcher.js"></script>
 <script src="/js/jquery-2.1.1.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
@@ -640,14 +644,6 @@
 <script src="/vendor/datatables/js/dataTables.responsive.min.js"></script>
 <script src="/js/adminux.js" type="text/javascript"></script>
 <script src="/js/dashboard1.js"></script>
-
-
-
-
-
-
-
-
 
 
 
@@ -734,6 +730,17 @@
         })
         //document.addEventListener('contextmenu',event => event.preventDefault())
 </script>  
+
+<% if (success.length > 0) { %>
+  <script>
+  Swal.fire('Success', '<%= success %>', 'success');
+  </script>
+  <% } %>
+  <% if (error.length > 0) { %>
+  <script>
+  Swal.fire('Error', '<%= error %>', 'error');
+  </script>
+  <% } %>
 
 </body>
 </html>

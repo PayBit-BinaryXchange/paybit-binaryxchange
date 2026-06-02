@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/img/assets/favicon.png" type="image/x-icon">
+  <title>PayBit-BinaryXchange | Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; font-family: 'Segoe UI', system-ui, sans-serif;}
+    .admin-card {background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);}
+    .table-dark {--bs-table-bg: transparent; --bs-table-border-color: rgba(148, 163, 184, 0.1);}
+    .table-dark th {background: rgba(15, 23, 42, 0.6); border: none; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; color: #94a3b8;}
+    .table-dark td {border-color: rgba(148, 163, 184, 0.05); vertical-align: top;}
+    .table-dark tbody tr:hover {background: rgba(59, 130, 246, 0.05);}
+    .form-control-sm {background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(148, 163, 184, 0.2); color: #e2e8f0;}
+    .form-control-sm:focus {background: rgba(15, 23, 42, 0.8); border-color: #3b82f6; color: #fff; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);}
+    .btn-success {background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;}
+    .btn-warning {background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border: none; color: #fff;}
+    .btn-outline-secondary {border-color: rgba(148, 163, 184, 0.3); color: #94a3b8; font-size: 0.75rem;}
+    .btn-outline-secondary:hover {background: rgba(148, 163, 184, 0.1); color: #fff;}
+    .badge-role {background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);}
+    .badge-pending {animation: pulse 2s infinite;}
+    .history-box {background: rgba(15, 23, 42, 0.6); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1);}
+    .form-label {color: #94a3b8; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px;}
+    @keyframes pulse {0%, 100% { opacity: 1; } 50% { opacity: 0.6; }}
+  </style>
+</head>
+<body class="text-light">
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold mb-0"><i class="bi bi-shield-check"></i> Admin Dashboard</h3>
+    <a href="/Dashboard/account" class="btn btn-outline-light"><i class="bi bi-arrow-left"></i> Back</a>
+  </div>
+
+  <% if(success && success.length) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle"></i> <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+  <% if(error && error.length) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle"></i> <%= error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+
+  <div class="admin-card p-4">
+    <h5 class="mb-3"><i class="bi bi-people"></i> All Users - Edit Balance & Approve Deposits</h5>
+
+    <div class="table-responsive">
+      <table class="table table-dark align-middle mb-0">
+        <thead>
+          <tr>
+            <th style="width: 20%">User</th>
+            <th style="width: 10%">Balance</th>
+            <th style="width: 10%">Total Deposit</th>
+            <th style="width: 10%">Bonus</th>
+            <th style="width: 10%">Earning</th>
+            <th style="width: 8%">Role</th>
+            <th style="width: 22%">Pending Deposits</th>
+            <th style="width: 10%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(u => { %>
+          <tr>
+            <td colspan="8" class="p-0">
+              <form action="/Dashboard/admin/users/update" method="POST">
+                <div class="row g-3 p-3 align-items-start">
+
+                  <!-- User Info -->
+                  <div class="col-md-2">
+                    <label class="form-label">User</label>
+                    <div class="d-flex align-items-center">
+                      <img src="<%= u.profilePic || '/img/profile/default.png' %>" class="rounded-circle me-2" width="40" height="40">
+                      <div>
+                        <div class="fw-semibold"><%= u.firstname %> <%= u.lastname %></div>
+                        <div class="text-muted small"><%= u.email %></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Balance -->
+                  <div class="col-md-1">
+                    <label class="form-label">Balance</label>
+                    <input type="number" step="0.01" name="balance" value="<%= u.balance || 0 %>" class="form-control form-control-sm">
+                  </div>
+
+                  <!-- Total Deposit -->
+                  <div class="col-md-1">
+                    <label class="form-label">Deposit</label>
+                    <input type="number" step="0.01" name="totalDeposit" value="<%= u.totalDeposit || 0 %>" class="form-control form-control-sm">
+                  </div>
+
+                  <!-- Bonus -->
+                  <div class="col-md-1">
+                    <label class="form-label">Bonus</label>
+                    <input type="number" step="0.01" name="totalBonus" value="<%= u.totalBonus || 0 %>" class="form-control form-control-sm">
+                  </div>
+
+                  <!-- Earning -->
+                  <div class="col-md-1">
+                    <label class="form-label">Earning</label>
+                    <input type="number" step="0.01" name="totalEarning" value="<%= u.totalEarning || 0 %>" class="form-control form-control-sm">
+                  </div>
+
+                  <!-- Role -->
+                  <div class="col-md-1">
+                    <label class="form-label">Role</label>
+                    <span class="badge badge-role px-3 py-2 d-block"><%= u.role || 'user' %></span>
+                  </div>
+
+                  <!-- Pending + History -->
+                  <div class="col-md-3">
+                    <label class="form-label">Pending Deposits</label>
+                    <% let pendingTxs = u.transactions?.filter(tx => tx.type === 'Deposit' && tx.status === 'Pending') || []; %>
+                    <% let historyTxs = u.transactions?.filter(tx => tx.type === 'Deposit' && tx.status !== 'Pending').slice(0, 5) || []; %>
+
+                    <% if(pendingTxs.length > 0) { %>
+                      <% pendingTxs.forEach(tx => { %>
+                        <div class="mb-2 p-2 border-warning rounded">
+                          <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="badge bg-warning text-dark badge-pending">
+                              <i class="bi bi-clock"></i> <%= u.currency %><%= tx.amount %>
+                            </span>
+                            <small class="text-muted"><%= formatTime(tx.date) %></small>
+                          </div>
+                          <form action="/Dashboard/admin/approve/<%= u._id %>/<%= tx._id %>" method="POST">
+                            <button type="submit" class="btn btn-sm btn-warning w-100">
+                              <i class="bi bi-check-lg"></i> Approve
+                            </button>
+                          </form>
+                        </div>
+                      <% }) %>
+                    <% } else { %>
+                      <div class="text-muted small">None</div>
+                    <% } %>
+
+                    <% if(historyTxs.length > 0) { %>
+                      <button class="btn btn-sm btn-outline-secondary w-100 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#history<%= u._id %>">
+                        <i class="bi bi-clock-history"></i> History (<%= historyTxs.length %>)
+                      </button>
+                      <div class="collapse mt-2" id="history<%= u._id %>">
+                        <div class="history-box p-2">
+                          <% historyTxs.forEach(tx => { %>
+                          <div class="d-flex justify-content-between small mb-1">
+                            <span><%= u.currency %><%= tx.amount %></span>
+                            <span class="badge <%= tx.status === 'Completed' ? 'bg-success' : 'bg-danger' %>"><%= tx.status %></span>
+                          </div>
+                          <% }) %>
+                        </div>
+                      </div>
+                    <% } %>
+                  </div>
+
+                  <!-- Update Button -->
+                  <div class="col-md-1">
+                    <label class="form-label">Action</label>
+                    <input type="hidden" name="userId" value="<%= u._id %>">
+                    <button type="submit" class="btn btn-sm btn-success w-100">
+                      <i class="bi bi-save"></i> Update
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -126,6 +126,12 @@
       <h3 style="color:green;text-align:center"></h3>
     </span>
     <h2 class="tex-black mb-4">Sign in</h2>
+    <% if (error && error.length > 0) { %>
+      <div class="alert alert-danger"><%= error[0] %></div>
+    <% } %>
+    <% if (success && success.length > 0) { %>
+      <div class="alert alert-success"><%= success[0] %></div>
+    <% } %>
     <label style="color:black">Username or Email</label>
     <input type="text" style="color:black;font-weight:bold" name="login" class="form-control" placeholder="Username" value="" required>
     <span style="color:crimson"></span>
@@ -135,11 +141,13 @@
     <span style="color:crimson"></span>
     <br>
           <div class="input-group">
-        <div class="input-group-prepend">
-          <img src="/captcha" id="" alt="captchaImg" srcset="">
+            <div class="input-group-prepend">
+              <img src="/captcha?t=<%= Date.now() %>" id="captchaImg" 
+              onclick="this.src='/captcha?t='+Date.now()" 
+              style="cursor:pointer; border:1px solid #ddd; border-radius:6px">
+            </div>
+            <input style="color:black" type="text" value="" placeholder="Enter Captcha" name="captcha" class="form-control font-weight-bold" id="captcha" required>
         </div>
-        <input style="color:black" type="text" value="" placeholder="Enter Captcha" name="_captcha" class="form-control font-weight-bold" id="captcha" required>
-      </div>
       <span style="color:crimson"></span>
       <br>
         <input type="checkbox" style="width:auto" name="remember" id="check" > <label for="check" style="color:black">Remember Me</label>
@@ -245,12 +253,6 @@
     })
     document.addEventListener('contextmenu', event => event.preventDefault())
   </script>
-
-<script>
-  window.onload = () => {
-    document.getElementById("captchaImg").src = "/captcha" + Date.now();
-  };
-</script>
 
 
 </body>

@@ -213,24 +213,50 @@
       <li class="v-devider"></li>
       <li class="nav-item "> <a class="btn btn-link icon-header menu-collapse-right" href="#"><span class="fa fa-podcast"></span> </a> </li>
     </ul>
-    <div class="sidebar-right pull-right ">
-      <ul class="navbar-nav  justify-content-end">
+    <div class="sidebar-right pull-right">
+      <ul class="navbar-nav justify-content-end">
         <li class="nav-item">
-          <button class="btn-link btn userprofile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button><span class="userpic"><img src="img/profile/default.png" alt="user pic"></span> <span class="text"></span>
+          <button class="btn-link btn userprofile" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"></button>
+    
+          <span class="userpic">
+            <img src="<%= profilePic || '/img/default.png' %>" alt="user pic">
+          </span>
+    
+          <span class="text">
+            <%= user?.firstname || '' %> <%= user?.lastname || '' %>
+          </span>
         </li>
-        <li><a href="logout" class="btn btn-link icon-header"><span class="fa fa-power-off"></span></a></li>
+    
+        <li>
+          <a href="logout" class="btn btn-link icon-header">
+            <span class="fa fa-power-off"></span>
+          </a>
+        </li>
       </ul>
     </div>
-  </nav>
-</header>
-<div class="sidebar-left">
-  <div class="user-menu-items">
-    <div class="list-unstyled btn-group">
-      <button class="media btn btn-link" aria-haspopup="true" aria-expanded="false"> <span class="message_userpic">
-        <img class="d-flex" src="/img/profile/default.png" alt="Generic user image"></span> 
-        <span class="media-body"> <span class="mt-0 mb-1"></span> <small></small> </span> </button>
-    </div>
-  </div>
+    </nav>
+    </header>
+    
+    <div class="sidebar-left">
+      <div class="user-menu-items">
+        <div class="list-unstyled btn-group">
+          <button class="media btn btn-link" aria-haspopup="true" aria-expanded="false">
+    
+            <span class="message_userpic">
+              <img class="d-flex" src="<%= profilePic || '/img/default.png' %>" alt="User image">
+            </span>
+    
+            <span class="media-body">
+              <span class="mt-0 mb-1">
+                <%= user?.firstname || '' %> <%= user?.lastname || '' %>
+              </span>
+              <small><%= user?.username || '' %></small>
+            </span>
+    
+          </button>
+        </div>
+      </div>
   <br>
   <ul class="nav flex-column in" id="side-menu">
 
@@ -286,29 +312,59 @@
 
 <title>PayBit-BinaryXchange | Transactions</title>
 
-<h2 style="text-align:center">Transactions  < slide ></h2>
+<h2 style="text-align:center">Transactions</h2>
 <br>
 
-
-
 <span>
-    <div class="scrollmenu">
-        <table cellspacing="400" class="table" table-bordered="">
-            <tbody>
-                <tr>
-                    <th>TYPE</th>
-                    <th>STATUS</th>
-                    <th>AMOUNT</th>
-                    <th>DATE</th>
-                </tr>
-
-
-
-                
-            </tbody>
-        </table>
-    </div>
-            </span>
+  <div class="scrollmenu">
+    <table cellspacing="400" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>TYPE</th>
+          <th>PLAN</th>
+          <th>AMOUNT</th>
+          <th>CURRENCY</th>
+          <th>STATUS</th>
+          <th>DATE</th>
+          <th>PROOF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if(user.transactions && user.transactions.length > 0) { %>
+          <% user.transactions.slice().reverse().forEach(tx => { %>
+            <tr>
+              <td><%= tx.type %></td>
+              <td><%= tx.plan || '-' %></td>
+              <td><%= tx.amount.toFixed(2) %></td>
+              <td><%= tx.currency || user.currency %></td>
+              <td>
+                <% if(tx.status === 'Completed') { %>
+                  <span class="badge badge-success">Completed</span>
+                <% } else if(tx.status === 'Pending') { %>
+                  <span class="badge badge-warning">Pending</span>
+                <% } else { %>
+                  <span class="badge badge-danger">Failed</span>
+                <% } %>
+              </td>
+              <td><%= formatTime(tx.date) %></td>
+              <td>
+                <% if(tx.proof) { %>
+                  <a href="<%= tx.proof %>" target="_blank" class="btn btn-sm btn-info">View</a>
+                <% } else { %>
+                  -
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="7" class="text-center">No transactions yet</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</span>
 <hr>
 <a href="account"><button class="btn btn-dark" style="color:white"><i class="fa fa-undo"></i> Back to Account</button></a><br><br>
 

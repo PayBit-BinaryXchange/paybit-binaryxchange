@@ -1,9 +1,5 @@
-
-
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" dir="ltr">
 <head>
   <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
   <meta charset="utf-8">
@@ -212,24 +208,50 @@
       <li class="v-devider"></li>
       <li class="nav-item "> <a class="btn btn-link icon-header menu-collapse-right" href="#"><span class="fa fa-podcast"></span> </a> </li>
     </ul>
-    <div class="sidebar-right pull-right ">
-      <ul class="navbar-nav  justify-content-end">
+    <div class="sidebar-right pull-right">
+      <ul class="navbar-nav justify-content-end">
         <li class="nav-item">
-          <button class="btn-link btn userprofile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button><span class="userpic"><img src="/img/profile/default.png" alt="user pic"></span> <span class="text"></span>
+          <button class="btn-link btn userprofile" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"></button>
+    
+          <span class="userpic">
+            <img src="<%= profilePic || '/img/default.png' %>" alt="user pic">
+          </span>
+    
+          <span class="text">
+            <%= user?.firstname || '' %> <%= user?.lastname || '' %>
+          </span>
         </li>
-<li><a href="logout" class="btn btn-link icon-header"><span class="fa fa-power-off"></span></a></li>
+    
+        <li>
+          <a href="logout" class="btn btn-link icon-header">
+            <span class="fa fa-power-off"></span>
+          </a>
+        </li>
       </ul>
     </div>
-  </nav>
-</header>
-<div class="sidebar-left">
-  <div class="user-menu-items">
-    <div class="list-unstyled btn-group">
-      <button class="media btn btn-link" aria-haspopup="true" aria-expanded="false"> <span class="message_userpic">
-        <img class="d-flex" src="/img/profile/default.png" alt="Generic user image"></span> 
-        <span class="media-body"> <span class="mt-0 mb-1"></span> <small></small> </span> </button>
-    </div>
-  </div>
+    </nav>
+    </header>
+    
+    <div class="sidebar-left">
+      <div class="user-menu-items">
+        <div class="list-unstyled btn-group">
+          <button class="media btn btn-link" aria-haspopup="true" aria-expanded="false">
+    
+            <span class="message_userpic">
+              <img class="d-flex" src="<%= profilePic || '/img/default.png' %>" alt="User image">
+            </span>
+    
+            <span class="media-body">
+              <span class="mt-0 mb-1">
+                <%= user?.firstname || '' %> <%= user?.lastname || '' %>
+              </span>
+              <small><%= user?.username || '' %></small>
+            </span>
+    
+          </button>
+        </div>
+      </div>
   <br>
   <ul class="nav flex-column in" id="side-menu">
     <li class="nav-item"> <a class="nav-link" href="account"><i class="fa fa-home"></i>Account</a> </li>
@@ -311,17 +333,16 @@
             </span>
           </b>
           <br>
-          <form action="/payment" method="POST">
+          <form action="/Dashboard/deposit" method="POST">
             <div class="form-group row">
-              <label for="exa1" class="col-16 col-form-label" style="text-align:left">Amount <font color="crison">$ *</font></label>
+              <label for="exa1" class="col-16 col-form-label">Amount <font color="crimson">*</font></label>
               <div class="col-16">
-                <input class="form-control" type="number" step="any" value="" placeholder="0.00" name="invest" min="10" id="exa1" required>
-                <input type="hidden" value="Deposit" name="action" required>
+                <input class="form-control" type="number" step="any" placeholder="0.00" name="plan" min="10" id="exa1" required>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-16">
-                <input class="btn btn-primary" style="float:right" type="submit" name="investment" value="Make Deposit">
+                <input class="btn btn-primary" style="float:right" type="submit" value="Make Deposit">
               </div>
             </div>
           </form>
@@ -350,7 +371,7 @@
             </span>
           </b>
           <br>
-          <form action="/info" method="POST">
+          <form action="/Dashboard/info" method="POST">
             <input class="form-control" type="hidden" value="" name="name" id="exam2" required>
             <input class="form-control" type="hidden" value="" name="email" id="exam2" required>
             <div class="form-group row">
@@ -501,7 +522,7 @@
         var transtype = transarray[Math.floor(Math.random() * transarray.length)];
         var plan = listPlans[Math.floor(Math.random() * listPlans.length)];
         var msg = 'Someone from <b>' + country + '</b> ' + transtype + ' <a href="javascript:void(0);" onclick="javascript:void(0);">' + plan + '</a>';
-        $(".mgm .txt")(msg);
+        $(".mgm .txt").html(msg); // <-- was $(".mgm .txt")(msg)
         $(".mgm").stop(true).fadeIn(300);
         window.setTimeout(function() {
             $(".mgm").stop(true).fadeOut(300);

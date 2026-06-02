@@ -185,28 +185,3 @@ $('#dataTables-example').DataTable({
         }
     }
 });
-
-fetch("User")
-  .then(res => res.json())
-  .then(user => {
-
-    // Top navbar profile name
-    document.querySelector(".navbar-nav .text").innerText =
-      user.firstName + " " + user.lastName;
-
-    // Sidebar name
-    document.querySelector(".media-body .mt-0").innerText =
-      user.firstName + " " + user.lastName;
-
-    // Sidebar email
-    document.querySelector(".media-body small").innerText =
-      user.email;
-
-    // Profile images (top + sidebar)
-    document.querySelectorAll("img[src='/img/profile/default.png']")
-      .forEach(img => img.src = user.profileImage);
-
-  })
-  .catch(() => {
-    console.log("User not logged in");
-  });
