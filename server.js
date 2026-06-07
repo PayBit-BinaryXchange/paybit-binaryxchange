@@ -708,37 +708,14 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
 
 cron.schedule('*/10 *', async () => {
   console.log('--- CRON TICK ---', new Date().toLocaleTimeString());
-    
-    try {
-        const users = await User.find({ hasActiveDeposit: true });
-        console.log('Users found with hasActiveDeposit:true:', users.length);
-        
-        for (let user of users) {
-            const rate = 0.01; // 1% per min for testing
-            
-            const lastDeposit = user.transactions
-               .filter(t => t.type === 'Deposit' && t.status === 'Completed')
-               .sort((a,b) => new Date(b.date) - new Date(a.date))[0];
-
-            if (!lastDeposit) {
-                console.log('No completed deposit for', user.email);
-                continue;
-            }
-
-            const earningPerMin = lastDeposit.amount * rate;
-            console.log(`Updating ${user.email}: +${earningPerMin}`);
-
-            const result = await User.findByIdAndUpdate(user._id, {
-                $inc: { totalEarning: earningPerMin, balance: earningPerMin }
-            }, { new: true });
-
-            console.log('New balance:', result.balance, 'New earning:', result.totalEarning);
-        }
-    } catch (err) {
-        console.error('Cron error:', err);
-    }
+  try {
+    const users = await User.find({ hasActiveDeposit: true });
+    console.log('Users found:', users.length);
+  } catch (err) {
+    console.error('Cron error:', err);
+  }
 });
-console.log('Earning cron job started - runs every 1 minute');
+console.log('Earning cron job started');
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
