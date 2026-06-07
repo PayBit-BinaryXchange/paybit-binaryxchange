@@ -706,7 +706,7 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
 });
 
 
-cron.schedule('* *', async () => {
+cron.schedule('*/10 *', async () => {
   console.log('--- CRON TICK ---', new Date().toLocaleTimeString());
     
     try {
