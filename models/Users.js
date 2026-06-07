@@ -37,6 +37,8 @@ const UsersSchema = new mongoose.Schema({
   totalBonus: { type: Number, default: 0 },
   totalEarning: { type: Number, default: 0 },
 
+  hasActiveDeposit: { type: Boolean, default: false },
+
   // SECURITY - admin role
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
 
