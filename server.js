@@ -53,7 +53,7 @@ mongoose.connection.on('error', (err) => console.log('Mongoose connection error:
   }
 }));*/
 
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo').default;
 
 app.use(session({
   secret: process.env.SECRET_KEY,
