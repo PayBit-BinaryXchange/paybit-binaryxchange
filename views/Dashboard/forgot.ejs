@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -118,9 +114,11 @@
     
     <title>PayBit-BinaryXchange | Forgot Password</title>
 
+  <span><h3 style="color:crimson;text-align:center"><%= typeof error !== 'undefined' ? error : '' %></h3></span>
+<span><h3 style="color:green;text-align:center"><%= typeof success !== 'undefined' ? success : '' %></h3></span>
 <div class="container text-center">
 <h1 class="form-signin-heading text-white"><i class="fa fa-"></i>Password Reset</h1>
-<form class="form-signin1 light"   action="" method="POST">
+<form class="form-signin1 light" action="/Dashboard/forgot-password" method="POST">
   <img style="width:100%;height:100%" src="/img/logo.png" >
 <span><h3 style="color:crimson;text-align:center"></h3></span>
 <span><h3 style="color:green;text-align:center"></h3></span>
@@ -226,8 +224,6 @@
     })
     document.addEventListener('contextmenu', event => event.preventDefault())
   </script>
-
-
 </body>
 
 </html>

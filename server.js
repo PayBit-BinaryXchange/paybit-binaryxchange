@@ -10,6 +10,15 @@ const flash = require("express-flash");
 const mongoose = require("mongoose");
 const User = require("./models/Users");
 require('dotenv').config();
+const emailConfig = JSON.parse(process.env.EMAIL_CONFIG || '{}');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: emailConfig.user,
+    pass: emailConfig.pass
+  }
+});
 const app = express();
 
 initializePassport(passport);
@@ -21,9 +30,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set("trust proxy", 1);
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection failed:", err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("MongoDB Atlas connected"))
+.catch(err => console.error("MongoDB connection failed:", err));
+
+mongoose.connection.on('connected', () => console.log('Mongoose connected to DB'));
+mongoose.connection.on('error', (err) => console.log('Mongoose connection error:', err));
 
 /*app.use(session({
   secret: process.env.SECRET_KEY || "render-session-secret",
@@ -36,15 +51,18 @@ mongoose.connect(process.env.MONGO_URI)
   }
 }));*/
 
+const MongoStore = require('connect-mongo');
+
 app.use(session({
-  secret: process.env.SECRET_KEY || "render-session-secret",
+  secret: process.env.SECRET_KEY,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   cookie: {
-    secure: false, // <-- force false until you’re 100% on https
+    secure: true,
     httpOnly: true,
-    sameSite: 'lax',
-    maxAge: 1000 * 60 * 15
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60
   }
 }));
 
@@ -556,8 +574,104 @@ app.post('/Dashboard/admin/users/update', ensureAuth, ensureAdmin, async (req, r
   }
 });
 
+app.get('/Dashboard/forgot', ensureAuth, (req, res) => res.render('Dashboard/forgot'));
+
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const User = require('./Users'); // adjust path if needed
+
+// Create transporter - use Gmail or any SMTP
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER, // your gmail
+    pass: process.env.EMAIL_PASS  // app password, not normal password
+  }
+});
+
+// POST /Dashboard/forgot-password
+app.post('/Dashboard/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email: email.toLowerCase() });
+    
+    if (!user) {
+      return res.render('forgot-password', { error: 'No account with that email exists' });
+    }
+
+    // Generate reset token
+    const token = crypto.randomBytes(32).toString('hex');
+    user.resetToken = token;
+    user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    // Send email
+    const resetUrl = `${req.protocol}://${req.get('host')}/Dashboard/reset-password/${token}`;
+    
+    await transporter.sendMail({
+      to: user.email,
+      from: process.env.EMAIL_USER,
+      subject: 'Password Reset - PayBit-BinaryXchange',
+      html: `
+        <p>You requested a password reset</p>
+        <p>Click this link to reset: <a href="${resetUrl}">Reset Password</a></p>
+        <p>Link expires in 1 hour</p>
+        <p>If you didn’t request this, ignore this email.</p>
+      `
+    });
+
+    res.render('forgot-password', { success: 'Reset link sent to your email' });
+  } catch (err) {
+    console.log(err);
+    res.render('forgot-password', { error: 'Something went wrong' });
+  }
+});
+
+// GET /Dashboard/reset-password/:token
+app.get('/Dashboard/reset-password/:token', async (req, res) => {
+  const user = await User.findOne({
+    resetToken: req.params.token,
+    resetTokenExpiry: { $gt: Date.now() }
+  });
+  
+  if (!user) {
+    return res.send('Reset link invalid or expired');
+  }
+  
+  res.render('reset-password', { token: req.params.token });
+});
+
+// POST /Dashboard/reset-password/:token
+app.post('/Dashboard/reset-password/:token', async (req, res) => {
+  const user = await User.findOne({
+    resetToken: req.params.token,
+    resetTokenExpiry: { $gt: Date.now() }
+  });
+  
+  if (!user) {
+    return res.send('Reset link invalid or expired');
+  }
+  
+  user.password = req.body.password; // hash it with bcrypt in real app
+  user.resetToken = undefined;
+  user.resetTokenExpiry = undefined;
+  await user.save();
+  
+  res.send('Password updated. <a href="/Dashboard/login">Login</a>');
+});
+
+const bcrypt = require('bcrypt');
+bcrypt.hash('@supreme3010', 12).then(console.log)
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+app.use((req, res) => res.status(404).render('404'));
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+//git push -u origin main

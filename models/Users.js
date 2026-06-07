@@ -19,7 +19,9 @@ const UsersSchema = new mongoose.Schema({
   lastname: String,
   username: { type: String, unique: true, sparse: true },
   email: { type: String, unique: true, sparse: true },
-  password: String,
+  password: { type: String, required: true },
+  resetToken: String,
+  resetTokenExpiry: Date,
   mobile: String,
   referral: String,
   country: String,
@@ -40,6 +42,6 @@ const UsersSchema = new mongoose.Schema({
 
   transactions: [TransactionSchema],
   createdAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model("User", UsersSchema);
