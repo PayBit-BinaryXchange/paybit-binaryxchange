@@ -1,5 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 const path = require("path")
 const fs = require("fs")
 const multer = require("multer")
@@ -660,13 +662,13 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
   res.send('Password updated. <a href="/Dashboard/login">Login</a>');
 });
 
-/*const bcrypt = require('bcrypt');
-bcrypt.hash('@supreme3010', 12).then(console.log)*/
-
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+
+bcrypt.hash('@supreme3010', 12).then(console.log)
 
 app.use((req, res) => res.status(404).render('404'));
 app.use((err, req, res, next) => {
