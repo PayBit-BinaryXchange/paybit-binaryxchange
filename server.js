@@ -707,7 +707,7 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
 
 
 cron.schedule('* *', async () => {
-    console.log('--- CRON TICK ---', new Date().toLocaleTimeString());
+  console.log('--- CRON TICK ---', new Date().toLocaleTimeString());
     
     try {
         const users = await User.find({ hasActiveDeposit: true });
