@@ -310,75 +310,75 @@
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />    <div class="row mgt5">
-        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
-            <div class="activity-block success" style="border: 1px solid ">
-                <div class="media">
-                    <div class="media-body">
-                      <h5 class="font-weight-bold" style="color:crimson"><%= user.currency %><span><%= user.totalDeposit.toFixed(2) %></span></h5>
-                        <p>Total Deposit</p>
-                    </div>
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-                <div class="row">
-                    <div class="progress ">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
-                    </div>
-                </div>
-                <i style="margin-top:-12px;" class="bg-icon text-center fas fa-dollar-sign"></i>
-            </div>
-        </div>
-        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
-            <div class="activity-block success" style="border: 1px solid ">
-                <div class="media">
-                    <div class="media-body">
-                      <h5 class="font-weight-bold" style="color:#070"><%= user.currency %><span><%= user.balance.toFixed(2) %></span></h5>
-                        <p>Total Balance</p>
-                    </div>
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <div class="row">
-                    <div class="progress ">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
-                    </div>
-                </div>
-                <i style="margin-top:-12px;" class="bg-icon text-center fas fa-chart-bar"></i>
-            </div>
-        </div>
-        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
-            <div class="activity-block success" style="border: 1px solid ">
-                <div class="media">
-                    <div class="media-body">
-                      <h5 class="font-weight-bold"><%= user.currency %><span><%= user.totalBonus.toFixed(2) %></span></h5>
-                        <p>Total Bonus</p>
-                    </div>
-                    <i class="fas fa-wallet"></i>
-                </div>
-                <div class="row">
-                    <div class="progress ">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
-                    </div>
-                </div>
-                <i style="margin-top:-12px;" class="bg-icon text-center fas fa-wallet"></i>
-            </div>
-        </div>
-        <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
-            <div class="activity-block success" style="border: 1px solid ">
-                <div class="media">
-                    <div class="media-body">
-                      <h5 class="font-weight-bold"><%= user.currency %><span><%= user.totalEarning.toFixed(2) %></span></h5>
-                        <p>Total Earning</p>
-                    </div>
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <div class="row">
-                    <div class="progress ">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
-                    </div>
-                </div>
-                <i style="margin-top:-12px;" class="bg-icon text-center fas fa-chart-bar"></i>
-            </div>
-        </div>
-    </div>
+  <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+      <div class="activity-block success" style="border: 1px solid ">
+          <div class="media">
+              <div class="media-body">
+                <h5 class="font-weight-bold" style="color:crimson"><%= user.currency %><span><%= user.totalDeposit.toFixed(2) %></span></h5>
+                  <p>Total Deposit</p>
+              </div>
+              <i class="fas fa-dollar-sign"></i>
+          </div>
+          <div class="row">
+              <div class="progress ">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+              </div>
+          </div>
+          <i style="margin-top:-12px;" class="bg-icon text-center fas fa-dollar-sign"></i>
+      </div>
+  </div>
+  <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+      <div class="activity-block success" style="border: 1px solid ">
+          <div class="media">
+              <div class="media-body">
+                <h5 class="font-weight-bold" style="color:#070"><%= user.currency %><span id="balance" data-amount="<%= user.balance.toFixed(2) %>"><%= user.balance.toFixed(2) %></span></h5>
+                <p>Total Balance</p>
+              </div>
+              <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="row">
+              <div class="progress ">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+              </div>
+          </div>
+          <i style="margin-top:-12px;" class="bg-icon text-center fas fa-chart-bar"></i>
+      </div>
+  </div>
+  <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+      <div class="activity-block success" style="border: 1px solid ">
+          <div class="media">
+              <div class="media-body">
+                <h5 class="font-weight-bold"><%= user.currency %><span><%= user.totalBonus.toFixed(2) %></span></h5>
+                  <p>Total Bonus</p>
+              </div>
+              <i class="fas fa-wallet"></i>
+          </div>
+          <div class="row">
+              <div class="progress ">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+              </div>
+          </div>
+          <i style="margin-top:-12px;" class="bg-icon text-center fas fa-wallet"></i>
+      </div>
+  </div>
+  <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+      <div class="activity-block success" style="border: 1px solid ">
+          <div class="media">
+              <div class="media-body">
+                <h5 class="font-weight-bold"><%= user.currency %><span id="earnings" data-amount="<%= user.totalEarning.toFixed(2) %>" data-rate="0.05"><%= user.totalEarning.toFixed(2) %></span></h5>
+                <p>Total Earning</p>
+              </div>
+              <i class="fas fa-chart-bar"></i>
+          </div>
+          <div class="row">
+              <div class="progress ">
+                  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+              </div>
+          </div>
+          <i style="margin-top:-12px;" class="bg-icon text-center fas fa-chart-bar"></i>
+      </div>
+  </div>
+</div>
 
 
 
@@ -521,7 +521,31 @@
     }
   </script>
 
-
+<script>
+  $(document).ready(function() {
+      <% if(user.hasActiveDeposit) { %>  // Only run if deposit approved
+      let balanceEl = $('#balance');
+      let earningEl = $('#earnings');
+      
+      let balance = parseFloat(balanceEl.attr('data-amount'));
+      let earnings = parseFloat(earningEl.attr('data-amount'));
+      let rate = parseFloat(earningEl.attr('data-rate')); // $ per second
+      
+      setInterval(function() {
+          earnings += rate;
+          balance += rate;
+          
+          // Update display with spincrement for smooth animation
+          balanceEl.html(balance.toFixed(2));
+          earningEl.html(earnings.toFixed(2));
+          
+          // Update data-amount so refresh keeps correct value
+          balanceEl.attr('data-amount', balance.toFixed(2));
+          earningEl.attr('data-amount', earnings.toFixed(2));
+      }, 1000); // 1000ms = 1 second
+      <% } %>
+  });
+  </script>
 
 
 
