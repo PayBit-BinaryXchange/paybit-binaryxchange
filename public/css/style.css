@@ -2390,9 +2390,3 @@ p {
     -webkit-background-size: cover;
     background-size:cover ;
 }
-
-@media screen and (max-width: 430px) {
-    .logo-light, .logo-dark {
-        margin-left: 0px;
-    }
-}
