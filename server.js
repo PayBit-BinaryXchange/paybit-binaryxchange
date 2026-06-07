@@ -714,4 +714,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-//git push -u origin main
+//git add .
+//git commit -m "add withdrawal methods + fix withdraw page"
+//git push origin main
