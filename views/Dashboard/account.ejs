@@ -334,6 +334,7 @@
                 <h5 class="font-weight-bold" style="color:#070"><%= user.currency %><span id="balance" data-amount="<%= user.balance.toFixed(2) %>"><%= user.balance.toFixed(2) %></span></h5>
                 <p>Total Balance</p>
               </div>
+              <h5><%= user.currency %><span id="testBalance">0</span></h5>
               <i class="fas fa-chart-bar"></i>
           </div>
           <div class="row">
@@ -379,7 +380,17 @@
       </div>
   </div>
 </div>
-
+<script>
+  $(document).ready(function() {
+      $('#testBalance').spincrement({
+          from: 0,
+          to: 9999.99,
+          duration: 3000,
+          decimalPlaces: 2,
+          thousandSeparator: ','
+      });
+  });
+  </script>
 
 
 
