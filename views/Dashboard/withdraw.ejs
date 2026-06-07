@@ -310,13 +310,234 @@
     <!--<br><br> -->
     <!-- <br> -->
 
-<title>PayBit-BinaryXchange | Withdrawal</title>
+    <title>PayBit-BinaryXchange | Withdrawal</title>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />    <div class="row mgt5">
+      <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+          <div class="activity-block success" style="border: 1px solid ">
+              <div class="media">
+                  <div class="media-body">
+                    <h5 class="font-weight-bold" style="color:crimson"><%= user.currency %><span><%= user.totalDeposit.toFixed(2) %></span></h5>
+                      <p>Total Deposit</p>
+                  </div>
+                  <i class="fas fa-dollar-sign"></i>
+              </div>
+              <div class="row">
+                  <div class="progress ">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+                  </div>
+              </div>
+              <i style="margin-top:-12px;" class="bg-icon text-center fas fa-dollar-sign"></i>
+          </div>
+      </div>
+      <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+          <div class="activity-block success" style="border: 1px solid ">
+              <div class="media">
+                  <div class="media-body">
+                    <h5 class="font-weight-bold" style="color:#070"><%= user.currency %><span><%= user.balance.toFixed(2) %></span></h5>
+                      <p>Total Balance</p>
+                  </div>
+                  <i class="fas fa-chart-bar"></i>
+              </div>
+              <div class="row">
+                  <div class="progress ">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+                  </div>
+              </div>
+              <i style="margin-top:-12px;" class="bg-icon text-center fas fa-chart-bar"></i>
+          </div>
+      </div>
+      <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+          <div class="activity-block success" style="border: 1px solid ">
+              <div class="media">
+                  <div class="media-body">
+                    <h5 class="font-weight-bold"><%= user.currency %><span><%= user.totalBonus.toFixed(2) %></span></h5>
+                      <p>Total Bonus</p>
+                  </div>
+                  <i class="fas fa-wallet"></i>
+              </div>
+              <div class="row">
+                  <div class="progress ">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+                  </div>
+              </div>
+              <i style="margin-top:-12px;" class="bg-icon text-center fas fa-wallet"></i>
+          </div>
+      </div>
+      <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-4">
+          <div class="activity-block success" style="border: 1px solid ">
+              <div class="media">
+                  <div class="media-body">
+                    <h5 class="font-weight-bold"><%= user.currency %><span><%= user.totalEarning.toFixed(2) %></span></h5>
+                      <p>Total Earning</p>
+                  </div>
+                  <i class="fas fa-chart-bar"></i>
+              </div>
+              <div class="row">
+                  <div class="progress ">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="trackerball"></span></div>
+                  </div>
+              </div>
+              <i style="margin-top:-12px;" class="bg-icon text-center fas fa-chart-bar"></i>
+          </div>
+      </div>
+  </div>
+
+
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4><i class="fa fa-briefcase"></i> Request Withdrawal</h4>
+            <p>Balance: <%= user.currency || '£' %><%= user.balance || 0 %></p>
+          </div>
+          
+          <div class="card-body">
+            <% if(success && success.length > 0){ %>
+              <div class="alert alert-success"><%= success %></div>
+            <% } %>
+            <% if(error && error.length > 0){ %>
+              <div class="alert alert-danger"><%= error %></div>
+            <% } %>
+    
+            <form action="/Dashboard/withdraw" method="POST" id="withdrawForm">
+              
+              <!-- Amount -->
+              <div class="form-group">
+                <label>Amount to Withdraw (Min <%= user.currency || '£' %>10)</label>
+                <input type="number" name="amount" class="form-control" min="10" max="<%= user.balance %>" step="0.01" required>
+              </div>
+    
+              <!-- Method Selection Cards -->
+              <div class="form-group">
+                <label>Select Withdrawal Method</label>
+                <div class="row">
+                  
+                  <div class="col-md-2 col-6 mb-3">
+                    <div class="card method-card text-center p-2" onclick="selectMethod('bank')" style="cursor:pointer;border:2px solid #444">
+                      <i class="fa fa-university fa-2x mb-2"></i>
+                      <div>Bank Transfer</div>
+                    </div>
+                  </div>
+    
+                  <div class="col-md-2 col-6 mb-3">
+                    <div class="card method-card text-center p-2" onclick="selectMethod('card')" style="cursor:pointer;border:2px solid #444">
+                      <i class="fa fa-credit-card fa-2x mb-2"></i>
+                      <div>Card</div>
+                    </div>
+                  </div>
+    
+                  <div class="col-md-2 col-6 mb-3">
+                    <div class="card method-card text-center p-2" onclick="selectMethod('paypal')" style="cursor:pointer;border:2px solid #444">
+                      <i class="fab fa-paypal fa-2x mb-2"></i>
+                      <div>PayPal</div>
+                    </div>
+                  </div>
+    
+                  <div class="col-md-2 col-6 mb-3">
+                    <div class="card method-card text-center p-2" onclick="selectMethod('bitcoin')" style="cursor:pointer;border:2px solid #444">
+                      <i class="fab fa-bitcoin fa-2x mb-2"></i>
+                      <div>Bitcoin</div>
+                    </div>
+                  </div>
+    
+                  <div class="col-md-2 col-6 mb-3">
+                    <div class="card method-card text-center p-2" onclick="selectMethod('usdt')" style="cursor:pointer;border:2px solid #444">
+                      <i class="fas fa-dollar-sign fa-2x mb-2"></i>
+                      <div>USDT</div>
+                    </div>
+                  </div>
+    
+                </div>
+                <input type="hidden" name="method" id="selectedMethod" required>
+              </div>
+    
+              <!-- METHOD FIELDS: Bank Transfer -->
+              <div id="bank" class="method-fields" style="display:none">
+                <h5>Bank Transfer Details</h5>
+                <div class="row">
+                  <div class="col-md-6"><input type="text" name="bankName" class="form-control mb-2" placeholder="Bank Name"></div>
+                  <div class="col-md-6"><input type="text" name="accountName" class="form-control mb-2" placeholder="Account Name"></div>
+                  <div class="col-md-6"><input type="text" name="accountNumber" class="form-control mb-2" placeholder="Account Number"></div>
+                  <div class="col-md-6"><input type="text" name="swift" class="form-control mb-2" placeholder="SWIFT/IBAN"></div>
+                </div>
+              </div>
+    
+              <!-- METHOD FIELDS: Card -->
+              <div id="card" class="method-fields" style="display:none">
+                <h5>Card Details</h5>
+                <div class="row">
+                  <div class="col-md-6"><input type="text" name="cardName" class="form-control mb-2" placeholder="Name on Card"></div>
+                  <div class="col-md-6"><input type="text" name="cardNumber" class="form-control mb-2" placeholder="Card Number"></div>
+                  <div class="col-md-3"><input type="text" name="expiry" class="form-control mb-2" placeholder="MM/YY"></div>
+                  <div class="col-md-3"><input type="text" name="cvv" class="form-control mb-2" placeholder="CVV"></div>
+                </div>
+                <small class="text-warning">Card withdrawals may take 3-5 business days</small>
+              </div>
+    
+              <!-- METHOD FIELDS: PayPal -->
+              <div id="paypal" class="method-fields" style="display:none">
+                <h5>PayPal Details</h5>
+                <input type="email" name="paypalEmail" class="form-control" placeholder="PayPal Email Address">
+              </div>
+    
+              <!-- METHOD FIELDS: Bitcoin -->
+              <div id="bitcoin" class="method-fields" style="display:none">
+                <h5>Bitcoin Wallet</h5>
+                <input type="text" name="btcAddress" class="form-control" placeholder="BTC Wallet Address">
+                <small class="text-info">Network: Bitcoin BTC</small>
+              </div>
+    
+              <!-- METHOD FIELDS: USDT -->
+              <div id="usdt" class="method-fields" style="display:none">
+                <h5>USDT Wallet</h5>
+                <select name="usdtNetwork" class="form-control mb-2">
+                  <option value="">Select Network</option>
+                  <option value="TRC20">TRC20 - Tron</option>
+                  <option value="ERC20">ERC20 - Ethereum</option>
+                  <option value="BEP20">BEP20 - BSC</option>
+                </select>
+                <input type="text" name="usdtAddress" class="form-control" placeholder="USDT Wallet Address">
+              </div>
+    
+              <button type="submit" class="btn btn-primary mt-3">Submit Withdrawal Request</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <style>
+    .method-card.active { border-color: #3f48cc !important; background: #3f48cc22; }
+    .method-card:hover { border-color: #3f48cc; }
+    .method-fields { background: #1a1a1a; padding: 15px; border-radius: 8px; margin-top: 15px; }
+    </style>
+    
+    <script>
+    function selectMethod(method) {
+      document.getElementById('selectedMethod').value = method;
+      
+      // Hide all fields
+      document.querySelectorAll('.method-fields').forEach(el => el.style.display = 'none');
+      
+      // Remove active from all cards
+      document.querySelectorAll('.method-card').forEach(el => el.classList.remove('active'));
+      
+      // Show selected + add active border
+      document.getElementById(method).style.display = 'block';
+      event.currentTarget.classList.add('active');
+    }
+    </script>
 
 
 
 
 
-   <script>
+   <!--<script>
    Swal.fire({
    position: 'center',
    icon: 'info',
@@ -324,7 +545,7 @@
    showConfirmButton: false
    });
    setTimeout(() => {window.location = 'account';}, 3000);
-   </script>
+   </script>-->
 
 
 

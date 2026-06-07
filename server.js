@@ -477,7 +477,50 @@ app.post('/Dashboard/signal', ensureAuth, (req, res) => {
 });
 
 app.get('/Dashboard/account', ensureAuth, (req, res) => res.render('Dashboard/account'));
-app.get('/Dashboard/withdraw', ensureAuth, (req, res) => res.render('Dashboard/withdraw'));
+
+
+app.get('/Dashboard/withdraw', ensureAuth, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.render('Dashboard/withdraw', { user });
+});
+
+app.post('/Dashboard/withdraw', ensureAuth, async (req, res) => {
+  const { amount, method, ...details } = req.body;
+  const amountNum = Number(amount);
+
+  if (!amountNum || amountNum < 10) {
+    req.flash('error', 'Minimum withdrawal is £10');
+    return res.redirect('/Dashboard/withdraw');
+  }
+
+  if (amountNum > req.user.balance) {
+    req.flash('error', 'Insufficient balance');
+    return res.redirect('/Dashboard/withdraw');
+  }
+
+  try {
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: {
+        transactions: {
+          type: 'Withdrawal',
+          amount: amountNum,
+          currency: req.user.currency || '£',
+          method: method,
+          details: details,
+          date: new Date(),
+          status: 'Pending'
+        }
+      }
+    });
+
+    req.flash('success', `Withdrawal request of ${req.user.currency || '£'}${amountNum} via ${method} submitted. Awaiting admin approval.`);
+    res.redirect('/Dashboard/account');
+  } catch (err) {
+    console.log(err);
+    req.flash('error', 'Withdrawal failed');
+    res.redirect('/Dashboard/withdraw');
+  }
+});
 
 app.get('/Dashboard/transaction', ensureAuth, async (req, res) => {
   const user = await User.findById(req.user._id);
