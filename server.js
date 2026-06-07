@@ -54,14 +54,14 @@ mongoose.connection.on('error', (err) => console.log('Mongoose connection error:
 const MongoStore = require('connect-mongo').default;
 
 app.use(session({
-  secret: process.env.SECRET_KEY,
+  secret: emailConfig.secret || "fallback-secret",
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   cookie: {
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60
   }
 }));
@@ -652,7 +652,7 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
     return res.send('Reset link invalid or expired');
   }
   
-  user.password = req.body.password; // hash it with bcrypt in real app
+  user.password = await bcrypt.hash(req.body.password, 10); 
   user.resetToken = undefined;
   user.resetTokenExpiry = undefined;
   await user.save();
