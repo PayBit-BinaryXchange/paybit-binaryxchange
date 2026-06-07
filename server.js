@@ -32,10 +32,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set("trust proxy", 1);
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGO_URI)
+
 .then(() => console.log("MongoDB Atlas connected"))
 .catch(err => console.error("MongoDB connection failed:", err));
 
@@ -666,9 +664,6 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-
-bcrypt.hash('@supreme3010', 12).then(console.log)
 
 app.use((req, res) => res.status(404).render('404'));
 app.use((err, req, res, next) => {
