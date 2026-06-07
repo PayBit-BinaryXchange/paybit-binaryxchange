@@ -576,7 +576,7 @@ app.post('/Dashboard/admin/users/update', ensureAuth, ensureAdmin, async (req, r
 
 app.get('/Dashboard/forgot', ensureAuth, (req, res) => res.render('Dashboard/forgot'));
 
-const crypto = require('crypto');
+/*const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const User = require('./Users'); // adjust path if needed
 
@@ -587,7 +587,7 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER, // your gmail
     pass: process.env.EMAIL_PASS  // app password, not normal password
   }
-});
+});*/
 
 // POST /Dashboard/forgot-password
 app.post('/Dashboard/forgot-password', async (req, res) => {
@@ -610,7 +610,7 @@ app.post('/Dashboard/forgot-password', async (req, res) => {
     
     await transporter.sendMail({
       to: user.email,
-      from: process.env.EMAIL_USER,
+      from: `"PayBit Support" <${emailConfig.user}>`,
       subject: 'Password Reset - PayBit-BinaryXchange',
       html: `
         <p>You requested a password reset</p>
@@ -660,8 +660,8 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
   res.send('Password updated. <a href="/Dashboard/login">Login</a>');
 });
 
-const bcrypt = require('bcrypt');
-bcrypt.hash('@supreme3010', 12).then(console.log)
+/*const bcrypt = require('bcrypt');
+bcrypt.hash('@supreme3010', 12).then(console.log)*/
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
