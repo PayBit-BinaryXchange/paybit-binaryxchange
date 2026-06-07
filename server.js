@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const path = require("path")
@@ -704,46 +705,39 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
   res.send('Password updated. <a href="/Dashboard/login">Login</a>');
 });
 
-const cron = require('node-cron');
 
-// Run every 1 minute
 cron.schedule('* *', async () => {
+    console.log('--- CRON TICK ---', new Date().toLocaleTimeString());
+    
     try {
-        // Find users with approved deposits and hasActiveDeposit flag
-        const users = await User.find({
-            hasActiveDeposit: true,
-            'transactions.status': 'Completed',
-            'transactions.type': 'Deposit'
-        });
-
+        const users = await User.find({ hasActiveDeposit: true });
+        console.log('Users found with hasActiveDeposit:true:', users.length);
+        
         for (let user of users) {
-            // Set your earning rate here. Example: 0.1% per minute
-            const rate = 0.001; // 0.1% per minute = ~144% per day sim
-
-            // Get last approved deposit amount
+            const rate = 0.01; // 1% per min for testing
+            
             const lastDeposit = user.transactions
                .filter(t => t.type === 'Deposit' && t.status === 'Completed')
                .sort((a,b) => new Date(b.date) - new Date(a.date))[0];
 
-            if (!lastDeposit) continue;
+            if (!lastDeposit) {
+                console.log('No completed deposit for', user.email);
+                continue;
+            }
 
             const earningPerMin = lastDeposit.amount * rate;
+            console.log(`Updating ${user.email}: +${earningPerMin}`);
 
-            // Add to both totalEarning and balance
-            await User.findByIdAndUpdate(user._id, {
-                $inc: {
-                    totalEarning: earningPerMin,
-                    balance: earningPerMin
-                }
-            });
+            const result = await User.findByIdAndUpdate(user._id, {
+                $inc: { totalEarning: earningPerMin, balance: earningPerMin }
+            }, { new: true });
 
-            console.log(`Added ${earningPerMin.toFixed(4)} to ${user.email}`);
+            console.log('New balance:', result.balance, 'New earning:', result.totalEarning);
         }
     } catch (err) {
         console.error('Cron error:', err);
     }
 });
-
 console.log('Earning cron job started - runs every 1 minute');
 
 const port = process.env.PORT || 5000;
