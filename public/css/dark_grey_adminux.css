@@ -7708,3 +7708,9 @@ ul.icons li i {
 ::-webkit-scrollbar-thumb:window-inactive {
     background: #181818
 }
+
+@media screen and (max-width: 500px){
+    .mgt5 {
+        margin-top: 30px;
+    }
+}
