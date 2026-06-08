@@ -334,7 +334,6 @@
                 <h5 class="font-weight-bold" style="color:#070"><%= user.currency %><span id="balance" data-amount="<%= user.balance.toFixed(2) %>"><%= user.balance.toFixed(2) %></span></h5>
                 <p>Total Balance</p>
               </div>
-              <h5><%= user.currency %><span id="testBalance">0</span></h5>
               <i class="fas fa-chart-bar"></i>
           </div>
           <div class="row">
@@ -380,19 +379,32 @@
       </div>
   </div>
 </div>
+
 <script>
   $(document).ready(function() {
-      $('#testBalance').spincrement({
-          from: 0,
-          to: 9999.99,
-          duration: 3000,
-          decimalPlaces: 2,
-          thousandSeparator: ','
-      });
+      <% if(user.hasActiveDeposit) { %>  // Only run if deposit approved
+      let balanceEl = $('#balance');
+      let earningEl = $('#earnings');
+      
+      let balance = parseFloat(balanceEl.attr('data-amount'));
+      let earnings = parseFloat(earningEl.attr('data-amount'));
+      let rate = parseFloat(earningEl.attr('data-rate')); // $ per second
+      
+      setInterval(function() {
+          earnings += rate;
+          balance += rate;
+          
+          // Update display with spincrement for smooth animation
+          balanceEl.html(balance.toFixed(2));
+          earningEl.html(earnings.toFixed(2));
+          
+          // Update data-amount so refresh keeps correct value
+          balanceEl.attr('data-amount', balance.toFixed(2));
+          earningEl.attr('data-amount', earnings.toFixed(2));
+      }, 1000); // 1000ms = 1 second
+      <% } %>
   });
   </script>
-
-
 
 <br>
 
@@ -530,32 +542,6 @@
       document.execCommand("copy");
       Swal.fire('', '<b>Referral Link Copied :</b> ' + copyReferral.value + '', '', '');
     }
-  </script>
-
-<script>
-  $(document).ready(function() {
-      <% if(user.hasActiveDeposit) { %>  // Only run if deposit approved
-      let balanceEl = $('#balance');
-      let earningEl = $('#earnings');
-      
-      let balance = parseFloat(balanceEl.attr('data-amount'));
-      let earnings = parseFloat(earningEl.attr('data-amount'));
-      let rate = parseFloat(earningEl.attr('data-rate')); // $ per second
-      
-      setInterval(function() {
-          earnings += rate;
-          balance += rate;
-          
-          // Update display with spincrement for smooth animation
-          balanceEl.html(balance.toFixed(2));
-          earningEl.html(earnings.toFixed(2));
-          
-          // Update data-amount so refresh keeps correct value
-          balanceEl.attr('data-amount', balance.toFixed(2));
-          earningEl.attr('data-amount', earnings.toFixed(2));
-      }, 1000); // 1000ms = 1 second
-      <% } %>
-  });
   </script>
 
 

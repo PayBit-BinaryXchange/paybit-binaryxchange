@@ -705,7 +705,7 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
   res.send('Password updated. <a href="/Dashboard/login">Login</a>');
 });
 
-// Run every 1 minute
+
 cron.schedule('*/10 *', async () => {
     try {
         // Find users with approved deposits and hasActiveDeposit flag
@@ -746,6 +746,7 @@ cron.schedule('*/10 *', async () => {
 console.log('Earning cron job started - runs every 1 minute');
 
 
+
 app.use((req, res) => res.status(404).render('404'));
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -755,3 +756,4 @@ app.use((err, req, res, next) => {
 //git add .
 //git commit -m "add withdrawal methods + fix withdraw page"
 //git push origin main
+
