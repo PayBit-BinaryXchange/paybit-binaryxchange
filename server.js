@@ -705,45 +705,38 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
   res.send('Password updated. <a href="/Dashboard/login">Login</a>');
 });
 
+cron.schedule('* * * * *', async () => {
+  try {
+      const users = await User.find({
+          hasActiveDeposit: true,
+          'transactions.status': 'Completed',
+          'transactions.type': 'Deposit'
+      });
 
-cron.schedule('*/10 *', async () => {
-    try {
-        // Find users with approved deposits and hasActiveDeposit flag
-        const users = await User.find({
-            hasActiveDeposit: true,
-            'transactions.status': 'Completed',
-            'transactions.type': 'Deposit'
-        });
+      for (const user of users) {
+          const rate = 0.001;
 
-        for (let user of users) {
-            // Set your earning rate here. Example: 0.1% per minute
-            const rate = 0.001; // 0.1% per minute = ~144% per day sim
+          const lastDeposit = user.transactions
+              .filter(t => t.type === 'Deposit' && t.status === 'Completed')
+              .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
 
-            // Get last approved deposit amount
-            const lastDeposit = user.transactions
-               .filter(t => t.type === 'Deposit' && t.status === 'Completed')
-               .sort((a,b) => new Date(b.date) - new Date(a.date))[0];
+          if (!lastDeposit) continue;
 
-            if (!lastDeposit) continue;
+          const earningPerMin = lastDeposit.amount * rate;
 
-            const earningPerMin = lastDeposit.amount * rate;
+          await User.findByIdAndUpdate(user._id, {
+              $inc: {
+                  totalEarning: earningPerMin,
+                  balance: earningPerMin
+              }
+          });
 
-            // Add to both totalEarning and balance
-            await User.findByIdAndUpdate(user._id, {
-                $inc: {
-                    totalEarning: earningPerMin,
-                    balance: earningPerMin
-                }
-            });
-
-            console.log(`Added ${earningPerMin.toFixed(4)} to ${user.email}`);
-        }
-    } catch (err) {
-        console.error('Cron error:', err);
-    }
+          console.log(`Added ${earningPerMin.toFixed(4)} to ${user.email}`);
+      }
+  } catch (err) {
+      console.error('Cron error:', err);
+  }
 });
-
-console.log('Earning cron job started - runs every 1 minute');
 
 
 
