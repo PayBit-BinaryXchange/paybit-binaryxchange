@@ -705,22 +705,46 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
   res.send('Password updated. <a href="/Dashboard/login">Login</a>');
 });
 
-
+// Run every 1 minute
 cron.schedule('*/10 *', async () => {
-  console.log('--- CRON TICK ---', new Date().toLocaleTimeString());
-  try {
-    const users = await User.find({ hasActiveDeposit: true });
-    console.log('Users found:', users.length);
-  } catch (err) {
-    console.error('Cron error:', err);
-  }
-});
-console.log('Earning cron job started');
+    try {
+        // Find users with approved deposits and hasActiveDeposit flag
+        const users = await User.find({
+            hasActiveDeposit: true,
+            'transactions.status': 'Completed',
+            'transactions.type': 'Deposit'
+        });
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+        for (let user of users) {
+            // Set your earning rate here. Example: 0.1% per minute
+            const rate = 0.001; // 0.1% per minute = ~144% per day sim
+
+            // Get last approved deposit amount
+            const lastDeposit = user.transactions
+               .filter(t => t.type === 'Deposit' && t.status === 'Completed')
+               .sort((a,b) => new Date(b.date) - new Date(a.date))[0];
+
+            if (!lastDeposit) continue;
+
+            const earningPerMin = lastDeposit.amount * rate;
+
+            // Add to both totalEarning and balance
+            await User.findByIdAndUpdate(user._id, {
+                $inc: {
+                    totalEarning: earningPerMin,
+                    balance: earningPerMin
+                }
+            });
+
+            console.log(`Added ${earningPerMin.toFixed(4)} to ${user.email}`);
+        }
+    } catch (err) {
+        console.error('Cron error:', err);
+    }
 });
+
+console.log('Earning cron job started - runs every 1 minute');
+
 
 app.use((req, res) => res.status(404).render('404'));
 app.use((err, req, res, next) => {
