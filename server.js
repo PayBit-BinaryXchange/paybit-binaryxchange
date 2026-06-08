@@ -354,7 +354,7 @@ app.post('/Dashboard/deposit', ensureAuth, async (req, res) => {
     // Force save session before redirect
     req.session.save((err) => {
       if (err) console.log('Session save error:', err);
-      req.flash('success', `Deposit of ${req.user.currency || '£'}${amount} initiated. Complete the payment and upload payment proof.`);
+      req.flash('success', `Deposit of ${req.user.currency || '£'}${amount} initiated. Complete the payment and upload payment proof. Once the payment is approved, you will receive 10% bonus on each deposit`);
       res.redirect('/Dashboard/payment');
     });
 
@@ -429,7 +429,7 @@ app.post('/Dashboard/payment', ensureAuth, upload.single('file'), async (req, re
       }
 
       req.session.pendingDeposit = null;
-      req.flash('success', `Deposit proof uploaded for ${currency}${amount}. Awaiting admin confirmation.`);
+      req.flash('success', `Deposit proof uploaded for ${currency}${amount}. Awaiting confirmation.`);
       return res.redirect('/Dashboard/account');
     }
 
@@ -517,7 +517,7 @@ app.post('/Dashboard/withdraw', ensureAuth, async (req, res) => {
       }
     });
 
-    req.flash('success', `Withdrawal request of ${req.user.currency || '£'}${amountNum} via ${method} submitted. Awaiting admin approval.`);
+    req.flash('success', `Withdrawal request of ${req.user.currency || '£'}${amountNum} via ${method} submitted. Awaiting approval.`);
     res.redirect('/Dashboard/account');
   } catch (err) {
     console.log(err);
@@ -712,58 +712,48 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
 console.log('Auto earnings cron initialized');
 
 cron.schedule('* * * * *', async () => {
-  console.log('--- CRON TICK ---', new Date().toISOString());
+  console.log('--- CRON TICK ---', new Date().toLocaleTimeString());
 
   try {
-    // Find ALL users
-    const users = await User.find({});
+    const users = await User.find({
+      hasActiveDeposit: true,
+      transactions: {
+        $elemMatch: { type: 'Deposit', status: 'Completed' }
+      }
+    });
 
-    console.log(`Users found: ${users.length}`);
+    console.log('Users found with active deposit:', users.length);
 
     for (const user of users) {
-      // Find latest approved deposit
+      const rate = 0.01; // 1% per min for testing. Change to 0.001 later
+
       const lastDeposit = user.transactions
-        .filter(
-          t =>
-            t.type === 'Deposit' &&
-            t.status === 'Completed'
-        )
-        .sort(
-          (a, b) =>
-            new Date(b.date) - new Date(a.date)
-        )[0];
+       .filter(t => t.type === 'Deposit' && t.status === 'Completed')
+       .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
 
       if (!lastDeposit) {
-        console.log(`Skipping ${user.email} - no approved deposit`);
+        console.log('No completed deposit for', user.email);
         continue;
       }
 
-      // TEST RATE (1% per minute)
-      const rate = 0.01;
+      const earningPerMin = lastDeposit.amount * rate;
+      console.log(`Updating ${user.email}: deposit=£${lastDeposit.amount}, earning=£${earningPerMin}`);
 
-      const earningPerMin = Number(lastDeposit.amount) * rate;
+      const result = await User.findByIdAndUpdate(user._id, {
+        $inc: { totalEarning: earningPerMin, balance: earningPerMin }
+      }, { new: true });
 
-      const updatedUser = await User.findByIdAndUpdate(
-        user._id,
-        {
-          $inc: {
-            balance: earningPerMin,
-            totalEarning: earningPerMin
-          }
-        },
-        { new: true }
-      );
-
-      console.log(
-        `✓ ${updatedUser.email} | Deposit: ${lastDeposit.amount} | Earned: ${earningPerMin} | New Balance: ${updatedUser.balance}`
-      );
+      console.log('New balance:', result.balance, 'New earning:', result.totalEarning);
     }
   } catch (err) {
-    console.error('CRON ERROR:', err);
+    console.error('Cron error:', err);
   }
 });
 
-
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
 app.use((req, res) => res.status(404).render('404'));
 app.use((err, req, res, next) => {
