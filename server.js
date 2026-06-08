@@ -477,7 +477,10 @@ app.post('/Dashboard/signal', ensureAuth, (req, res) => {
   res.redirect('/Dashboard/payment');
 });
 
-app.get('/Dashboard/account', ensureAuth, (req, res) => res.render('Dashboard/account'));
+app.get('/Dashboard/account', ensureAuth, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.render('Dashboard/account', { user });
+});
 
 
 app.get('/Dashboard/withdraw', ensureAuth, async (req, res) => {
@@ -705,36 +708,58 @@ app.post('/Dashboard/reset-password/:token', async (req, res) => {
   res.send('Password updated. <a href="/Dashboard/login">Login</a>');
 });
 
+// ================= AUTO EARNINGS CRON =================
+console.log('Auto earnings cron initialized');
+
 cron.schedule('* * * * *', async () => {
+  console.log('--- CRON TICK ---', new Date().toISOString());
+
   try {
-      const users = await User.find({
-          hasActiveDeposit: true,
-          'transactions.status': 'Completed',
-          'transactions.type': 'Deposit'
-      });
+    // Find ALL users
+    const users = await User.find({});
 
-      for (const user of users) {
-          const rate = 0.001;
+    console.log(`Users found: ${users.length}`);
 
-          const lastDeposit = user.transactions
-              .filter(t => t.type === 'Deposit' && t.status === 'Completed')
-              .sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+    for (const user of users) {
+      // Find latest approved deposit
+      const lastDeposit = user.transactions
+        .filter(
+          t =>
+            t.type === 'Deposit' &&
+            t.status === 'Completed'
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.date) - new Date(a.date)
+        )[0];
 
-          if (!lastDeposit) continue;
-
-          const earningPerMin = lastDeposit.amount * rate;
-
-          await User.findByIdAndUpdate(user._id, {
-              $inc: {
-                  totalEarning: earningPerMin,
-                  balance: earningPerMin
-              }
-          });
-
-          console.log(`Added ${earningPerMin.toFixed(4)} to ${user.email}`);
+      if (!lastDeposit) {
+        console.log(`Skipping ${user.email} - no approved deposit`);
+        continue;
       }
+
+      // TEST RATE (1% per minute)
+      const rate = 0.01;
+
+      const earningPerMin = Number(lastDeposit.amount) * rate;
+
+      const updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        {
+          $inc: {
+            balance: earningPerMin,
+            totalEarning: earningPerMin
+          }
+        },
+        { new: true }
+      );
+
+      console.log(
+        `✓ ${updatedUser.email} | Deposit: ${lastDeposit.amount} | Earned: ${earningPerMin} | New Balance: ${updatedUser.balance}`
+      );
+    }
   } catch (err) {
-      console.error('Cron error:', err);
+    console.error('CRON ERROR:', err);
   }
 });
 
