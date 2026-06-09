@@ -215,9 +215,9 @@
       <button class="btn-link btn userprofile" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false"></button>
 
-      <span class="userpic">
+      <a href="settings"><span class="userpic">
         <img src="<%= profilePic || '/img/default.png' %>" alt="user pic">
-      </span>
+      </span></a>
 
       <span class="text">
         <%= user?.firstname || '' %> <%= user?.lastname || '' %>
@@ -240,8 +240,8 @@
       <button class="media btn btn-link" aria-haspopup="true" aria-expanded="false">
 
         <span class="message_userpic">
-          <img class="d-flex" src="<%= profilePic || '/img/default.png' %>" alt="User image">
-        </span>
+          <a href="settings"><img class="d-flex" src="<%= profilePic || '/img/default.png' %>" alt="User image">
+        </span></a>
 
         <span class="media-body">
           <span class="mt-0 mb-1">
@@ -480,7 +480,7 @@
 </div>
 
 
-
+<!--Welcome <%= user.firstname %>! Check transactions for deposit status.-->
 <br><br>
 
 
